@@ -57,7 +57,7 @@ namespace OpenFocus
         bool TemperatureCompensation;
     };
 
-    /* Functions for communicating with the bootloader */
+    /* Functions for communicating with the bootloader. DON'T USE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING */
     class EXPORT Bootloader
     {
     private:
