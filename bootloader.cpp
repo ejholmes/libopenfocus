@@ -1,5 +1,8 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "usb.h"
-#include "OpenFocus.h"
+#include "openfocus.h"
 
 #define USB_RQ_REBOOT 0x01
 #define USB_RQ_WRITE_FLASH_BLOCK 0x02

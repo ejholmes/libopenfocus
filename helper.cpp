@@ -1,6 +1,6 @@
 #include <time.h>
 
-#include "OpenFocus.h"
+#include "openfocus.h"
 
 
 int OpenFocus::Helper::ConnectBootloader()

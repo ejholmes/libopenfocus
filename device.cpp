@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "OpenFocus.h"
+#include "openfocus.h"
 
 #define USB_RQ_MOVE_TO 0x00
 #define USB_RQ_HALT 0x01

@@ -5,7 +5,11 @@
 
 #include "usb.h"
 
+#ifdef __WIN32__
 #define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
 
 namespace OpenFocus
 {

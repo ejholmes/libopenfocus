@@ -7,12 +7,14 @@
 # Use the following 3 lines on Unix (uncomment the framework on Mac OS X):
 # USBFLAGS = `libusb-config --cflags`
 # USBLIBS = `libusb-config --libs`
-# EXTENSION = 
+# LINKER = 
+# EXTENSION = .a
 
 # Use the following 3 lines on Windows and comment out the 3 above. You may
 # have to change the include paths to where you installed libusb-win32
 USBFLAGS = -I/usr/local/include
 USBLIBS = -L/usr/local/lib -lusb
+LINKER = -Wl,--out-implib,lib$(NAME).a
 EXTENSION = .dll
 
 NAME = openfocus
@@ -36,7 +38,8 @@ all: $(OUTPUT)
 	$(CC) $(CFLAGS) -c $<
 
 $(OUTPUT): $(OBJECTS)
-	$(CPP) -shared -o $(OUTPUT) $(OBJECTS) $(LIBS) -Wl,--out-implib,lib$(NAME).a
+	$(CPP) -shared -o $(OUTPUT) $(OBJECTS) $(LIBS) $(LINKER)
+	# ar rcs $(OUTPUT) $(OBJECTS)
 
 clean:
 	rm -f *.o $(OUTPUT) *.exe *.a
