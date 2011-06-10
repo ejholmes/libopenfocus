@@ -12,6 +12,21 @@ unsigned short OpenFocus::Bootloader::Product_ID = 0x416d;
 
 struct usb_dev_handle *OpenFocus::Bootloader::device = NULL;
 
+/* Type that is used to send a block of data for eeprom or flash writing */
+typedef union block {
+    struct {
+        unsigned short address;
+        char data;
+    };
+    char bytes;
+} block;
+
+/* Swaps byte positions in a short */
+static inline unsigned short endian_swap(unsigned short val)
+{
+    return ((val & 0xff) << 8) | ((val >> 8) & 0xff);
+}
+
 OpenFocus::Bootloader::Bootloader()
 {
     device = NULL;
@@ -56,11 +71,15 @@ int OpenFocus::Bootloader::GetReport(unsigned char *data)
 
 int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, char *data, int length)
 {
-    data = (char *)realloc(data, length + sizeof(address));
-    memmove((void *)(data+2), data, length);
-    memcpy(data, ToUsbInt(address, sizeof(address)), sizeof(address));
+    block *b = (block *)malloc(length + sizeof(address));
+    b->address = endian_swap(address);
+    memcpy(&b->data, data, length);
 
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, data, length + sizeof(address), 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
+
+    free(b);
+
+    return retval;
 }
 
 int OpenFocus::Bootloader::WriteEeprom(char *data, int length)
@@ -73,17 +92,20 @@ int OpenFocus::Bootloader::WriteEeprom(char *data, int length)
             return -1;
         data += blocksize;
     }
-    free(data);
     return 0;
 }
 
 int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, char *data, int length)
 {
-    data = (char *)realloc(data, length + sizeof(address));                 /* Reallocate extra space for address */
-    memmove((void *)(data+2), data, length);                                /* Move the data 2 bytes forward */
-    memcpy(data, ToUsbInt(address, sizeof(address)), sizeof(address));      /* Copy the address into the first 2 bytes */
+    block *b = (block *)malloc(length + sizeof(address));
+    b->address = endian_swap(address);
+    memcpy(&b->data, data, length);
 
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, data, length + sizeof(address), 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
+
+    free(b);
+
+    return retval;
 }
 
 int OpenFocus::Bootloader::WriteFlash(char *data, int length)
@@ -93,7 +115,6 @@ int OpenFocus::Bootloader::WriteFlash(char *data, int length)
             return -1;
         data += PageSize;
     }
-    free(data);
     return 0;
 }
 
