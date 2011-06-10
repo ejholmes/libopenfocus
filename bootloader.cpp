@@ -35,13 +35,6 @@ bool OpenFocus::Bootloader::Connect()
     if (!usb_open_device(&device, Vendor_ID, Product_ID))
         return false;
 
-    // unsigned char report = NULL;
-    // GetReport(report);
-    // endian_swap((unsigned char *)&PageSize, (unsigned char *)&report[0], 2);
-    // endian_swap((unsigned char *)&FlashSize, (unsigned char *)&report[2], 4);
-    // endian_swap((unsigned char *)&EEPROMSize, (unsigned char *)&report[6], 2);
-    // free(report);
-
     return true;
 }
 
