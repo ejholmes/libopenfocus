@@ -24,12 +24,6 @@ typedef union block {
     char bytes;
 } block;
 
-/* Swaps byte positions in a short */
-static inline unsigned short endian_swap(unsigned short val)
-{
-    return ((val & 0xff) << 8) | ((val >> 8) & 0xff);
-}
-
 OpenFocus::Bootloader::Bootloader()
 {
     device = NULL;

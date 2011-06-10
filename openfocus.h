@@ -148,4 +148,10 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
     return false;
 }
 
+/* Swaps byte positions in a short */
+static inline unsigned short endian_swap(unsigned short val)
+{
+    return ((val & 0xff) << 8) | ((val >> 8) & 0xff);
+}
+
 #endif // OPENFOCUS_H
