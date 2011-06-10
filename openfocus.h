@@ -22,9 +22,9 @@ namespace OpenFocus
     {
     private:
         /* Device Vendor ID */
-        static unsigned short Vendor_ID; /* 0x20a0 */
+        static const unsigned short Vendor_ID; /* 0x20a0 */
         /* Device Product ID */
-        static unsigned short Product_ID; /* 0x416b */
+        static const unsigned short Product_ID; /* 0x416b */
 
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
         int GetCapabilities(unsigned char *capabilities);
@@ -72,9 +72,9 @@ namespace OpenFocus
     {
     private:
         /* Bootloader Vendor ID */
-        static unsigned short Vendor_ID; /* 0x20a0 */
+        static const unsigned short Vendor_ID; /* 0x20a0 */
         /* Bootloader Product ID */
-        static unsigned short Product_ID; /* 0x416d */
+        static const unsigned short Product_ID; /* 0x416d */
 
         /* Returns report from device, returns 8 bytes */
         int GetReport(unsigned char *data);
