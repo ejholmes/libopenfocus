@@ -36,11 +36,12 @@ namespace OpenFocus
         bool Connect();
         /* Disconnect from the device */
         void Disconnect();
-        /* Move to position */
+        /* Asynchronously move to position */
         int MoveTo(unsigned short position);
         /* Halt the device if it's currently moving */
         int Halt();
-        /* Reboot the device into the bootloader */
+        /* Reboot the device into the bootloader. Don't use this if you don't
+         * know what you're doing */
         int RebootToBootloader();
         /* Set the current position on the device */
         int SetPosition(unsigned short position);

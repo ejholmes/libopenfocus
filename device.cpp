@@ -29,6 +29,7 @@ bool OpenFocus::Device::Connect()
     if (!usb_open_device(&device, Vendor_ID, Product_ID))
         return false;
 
+    /* Get the capabilities from the device */
     unsigned char caps = 0;
     GetCapabilities(&caps);
     AbsolutePositioning = ((caps & CAP_ABSOLUTE_POSITIONING) == CAP_ABSOLUTE_POSITIONING);
@@ -36,6 +37,7 @@ bool OpenFocus::Device::Connect()
 
     struct usb_device *dev = usb_device(device);
 
+    /* Get firmware version and serial number */
     memcpy(&FirmwareVersion, &dev->descriptor.bcdDevice, sizeof(FirmwareVersion));
     usb_get_string_simple(device, dev->descriptor.iSerialNumber, Serial, sizeof(Serial));
 
