@@ -24,6 +24,7 @@ typedef union block {
     char bytes; /* This struct as bytes */
 } block;
 
+
 OpenFocus::Bootloader::Bootloader()
 {
     device = NULL;
@@ -34,12 +35,12 @@ bool OpenFocus::Bootloader::Connect()
     if (!usb_open_device(&device, Vendor_ID, Product_ID))
         return false;
 
-    unsigned char *report = (unsigned char *)malloc(sizeof(unsigned char) * 8);
-    GetReport(report);
-    endian_swap((unsigned char *)&PageSize, (unsigned char *)&report[0], 2);
-    endian_swap((unsigned char *)&FlashSize, (unsigned char *)&report[2], 4);
-    endian_swap((unsigned char *)&EEPROMSize, (unsigned char *)&report[6], 2);
-    free(report);
+    // unsigned char report = NULL;
+    // GetReport(report);
+    // endian_swap((unsigned char *)&PageSize, (unsigned char *)&report[0], 2);
+    // endian_swap((unsigned char *)&FlashSize, (unsigned char *)&report[2], 4);
+    // endian_swap((unsigned char *)&EEPROMSize, (unsigned char *)&report[6], 2);
+    // free(report);
 
     return true;
 }
@@ -56,9 +57,24 @@ int OpenFocus::Bootloader::Reboot()
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT, 0, 0, NULL, 0, 5000);
 }
 
-int OpenFocus::Bootloader::GetReport(unsigned char *data)
+int OpenFocus::Bootloader::GetReport()
 {
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_REPORT, 0, 0, (char *)data, 8, 5000);
+    struct {
+        unsigned short pagesize;
+        unsigned long flashsize;
+        unsigned short eepromsize;
+    } report;
+
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_REPORT, 0, 0, (char *)&report, sizeof(report), 5000);
+
+    if (retval != 0)
+        return retval;
+
+    endian_swap((unsigned char *)&PageSize, (unsigned char *)&report.pagesize, sizeof(report.pagesize));
+    endian_swap((unsigned char *)&FlashSize, (unsigned char *)&report.flashsize, sizeof(report.flashsize));
+    endian_swap((unsigned char *)&EEPROMSize, (unsigned char *)&report.eepromsize, sizeof(report.eepromsize));
+
+    return retval;
 }
 
 int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const char *data, int length)

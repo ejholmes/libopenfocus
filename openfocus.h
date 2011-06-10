@@ -77,7 +77,7 @@ namespace OpenFocus
         static const unsigned short Product_ID; /* 0x416d */
 
         /* Returns report from device, returns 8 bytes */
-        int GetReport(unsigned char *data);
+        int GetReport();
 
         static struct usb_dev_handle *device;
     public:
