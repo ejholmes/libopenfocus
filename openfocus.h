@@ -47,7 +47,7 @@ namespace OpenFocus
 
 
         /* Device serial number */
-        char Serial[254];
+        char Serial[256];
         /* Device firmware version */
         unsigned short FirmwareVersion;
 
