@@ -12,8 +12,8 @@
 #endif
 
 typedef struct version {
-    unsigned char major;
-    unsigned char minor;
+    unsigned char major; /* Major version number */
+    unsigned char minor; /* Minor version number */
 } version;
 
 namespace OpenFocus

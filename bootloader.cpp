@@ -18,10 +18,10 @@ struct usb_dev_handle *OpenFocus::Bootloader::device = NULL;
 /* Type that is used to send a block of data for eeprom or flash writing */
 typedef union block {
     struct {
-        unsigned short address;
-        char data;
+        unsigned short address; /* Address to put data */
+        char data; /* Data to send */
     };
-    char bytes;
+    char bytes; /* This struct as bytes */
 } block;
 
 OpenFocus::Bootloader::Bootloader()
