@@ -90,7 +90,7 @@ int OpenFocus::Device::GetTemperature(unsigned short *temperature)
     if (retval != 0)
         return retval;
 
-    *temperature = (temp[1] << 8) | temp[0];
+    *temperature = endian_swap(*(unsigned short *)temp);
     return retval;
 }
 
@@ -103,7 +103,7 @@ int OpenFocus::Device::GetPosition(unsigned short *position)
     if (retval != 0)
         return retval;
 
-    *position = (pos[1] << 8) | pos[0];
+    *position = endian_swap(*(unsigned short *)pos);
     return retval;
 }
 
@@ -111,4 +111,3 @@ int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)capabilities, 1, 5000);
 }
-
