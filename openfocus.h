@@ -87,13 +87,13 @@ namespace OpenFocus
         /* Disconnects the bootloader */
         void Disconnect();
         /* Write block of data to address */
-        int WriteEepromBlock(unsigned short address, char *data, int length);
+        int WriteEepromBlock(unsigned short address, const char *data, int length);
         /* Write data to eeprom */
-        int WriteEeprom(char *data, int length);
+        int WriteEeprom(const char *data, int length);
         /* Write block of data to address in flash */
-        int WriteFlashBlock(unsigned short address, char *data, int length);
+        int WriteFlashBlock(unsigned short address, const char *data, int length);
         /* Write data to flash */
-        int WriteFlash(char *data, int length);
+        int WriteFlash(const char *data, int length);
         /* Exits bootloader by jumping to (void *)0 */
         int Reboot();
 
