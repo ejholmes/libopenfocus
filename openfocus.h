@@ -5,9 +5,11 @@
 
 #include "usb.h"
 
+#define EXPORT __declspec(dllexport)
+
 namespace OpenFocus
 {
-    class Device
+    class EXPORT Device
     {
     private:
         /* Device Vendor ID */
@@ -56,7 +58,7 @@ namespace OpenFocus
     };
 
     /* Functions for communicating with the bootloader */
-    class Bootloader
+    class EXPORT Bootloader
     {
     private:
         /* Bootloader Vendor ID */
