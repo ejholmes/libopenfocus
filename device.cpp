@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 
 #include "openfocus.h"
 
@@ -35,7 +36,7 @@ bool OpenFocus::Device::Connect()
 
     struct usb_device *dev = usb_device(device);
 
-    FirmwareVersion = dev->descriptor.bcdDevice;
+    memcpy(&FirmwareVersion, &dev->descriptor.bcdDevice, sizeof(FirmwareVersion));
     usb_get_string_simple(device, dev->descriptor.iSerialNumber, Serial, sizeof(Serial));
 
     return true;

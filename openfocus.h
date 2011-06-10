@@ -11,6 +11,11 @@
 #define EXPORT
 #endif
 
+typedef struct version {
+    unsigned char major;
+    unsigned char minor;
+} version;
+
 namespace OpenFocus
 {
     class EXPORT Device
@@ -53,7 +58,7 @@ namespace OpenFocus
         /* Device serial number */
         char Serial[256];
         /* Device firmware version */
-        unsigned short FirmwareVersion;
+        version FirmwareVersion;
 
         /* True if the device supports absolute positioning */
         bool AbsolutePositioning;
