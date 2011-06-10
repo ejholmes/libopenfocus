@@ -34,17 +34,12 @@ bool OpenFocus::Bootloader::Connect()
     if (!usb_open_device(&device, Vendor_ID, Product_ID))
         return false;
 
-    unsigned char *data = (unsigned char *)malloc(sizeof(unsigned char) * 8);
-    GetReport(data);
-
-    if (data == NULL)
-        return false;
-
-    PageSize = (unsigned short)((data[1] << 8) | data[0]);
-    FlashSize = (unsigned short)((data[5] << 24) | (data[4] << 16) | (data[3] << 8) | data[2]);
-    EEPROMSize = (unsigned short)((data[7] << 8) | data[6]);
-
-    free(data);
+    unsigned char *report = (unsigned char *)malloc(sizeof(unsigned char) * 8);
+    GetReport(report);
+    endian_swap((unsigned char *)&PageSize, (unsigned char *)&report[0], 2);
+    endian_swap((unsigned char *)&FlashSize, (unsigned char *)&report[2], 4);
+    endian_swap((unsigned char *)&EEPROMSize, (unsigned char *)&report[6], 2);
+    free(report);
 
     return true;
 }
@@ -69,7 +64,7 @@ int OpenFocus::Bootloader::GetReport(unsigned char *data)
 int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const char *data, int length)
 {
     block *b = (block *)malloc(length + sizeof(address));
-    b->address = endian_swap(address);
+    endian_swap((unsigned char *)&b->address, (unsigned char *)&address, sizeof(b->address));
     memcpy(&b->data, data, length);
 
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
@@ -95,7 +90,7 @@ int OpenFocus::Bootloader::WriteEeprom(const char *data, int length)
 int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const char *data, int length)
 {
     block *b = (block *)malloc(length + sizeof(address));
-    b->address = endian_swap(address);
+    endian_swap((unsigned char *)&b->address, (unsigned char *)&address, sizeof(b->address));
     memcpy(&b->data, data, length);
 
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);

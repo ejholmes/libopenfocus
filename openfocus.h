@@ -149,10 +149,14 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
     return false;
 }
 
-/* Swaps byte positions in a short */
-static inline unsigned short endian_swap(unsigned short val)
+/* Copies bytes from source to dest and swapping between big and little endian
+ * in the process */
+static inline void endian_swap(unsigned char *dest, const unsigned char *source, int length)
 {
-    return ((val & 0xff) << 8) | ((val >> 8) & 0xff);
+    int i;
+    for (i = 0; i < length; i++) {
+        dest[0] = (source[length - i]);
+    }
 }
 
 #endif // OPENFOCUS_H

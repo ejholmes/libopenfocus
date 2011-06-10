@@ -92,7 +92,7 @@ int OpenFocus::Device::GetTemperature(unsigned short *temperature)
     if (retval != 0)
         return retval;
 
-    *temperature = endian_swap(*(unsigned short *)temp);
+    endian_swap((unsigned char *)temperature, (unsigned char *)temp, sizeof(temp));
     return retval;
 }
 
@@ -105,7 +105,7 @@ int OpenFocus::Device::GetPosition(unsigned short *position)
     if (retval != 0)
         return retval;
 
-    *position = endian_swap(*(unsigned short *)pos);
+    endian_swap((unsigned char *)position, (unsigned char *)pos, sizeof(pos));
     return retval;
 }
 
