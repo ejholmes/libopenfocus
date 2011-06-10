@@ -78,9 +78,6 @@ namespace OpenFocus
         /* Returns report from device, returns 8 bytes */
         int GetReport(unsigned char *data);
 
-        unsigned char* ToUsbInt(unsigned int value, int length);
-        unsigned int GetUsbInt(unsigned char *bytes, int length);
-
         static struct usb_dev_handle *device;
     public:
         Bootloader();

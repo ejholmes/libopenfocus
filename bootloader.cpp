@@ -120,32 +120,3 @@ int OpenFocus::Bootloader::WriteFlash(char *data, int length)
     }
     return 0;
 }
-
-unsigned char* OpenFocus::Bootloader::ToUsbInt(unsigned int value, int length)
-{
-    unsigned char *bytes = (unsigned char *)malloc(sizeof(unsigned char) * length);
-
-    for (int i = 0; i < length; i++)
-    {
-        bytes[i] = (unsigned char)(value & 0xff);
-        value >>= 8;
-    }
-
-    return bytes;
-}
-
-unsigned int OpenFocus::Bootloader::GetUsbInt(unsigned char *bytes, int length)
-{
-    unsigned int value = 0;
-    int shift = 0;
-
-    for (int i = 0; i < length; i++)
-    {
-        value |= (unsigned int)(bytes[i] << shift);
-        shift += 8;
-    }
-
-    return value;
-}
-
-
