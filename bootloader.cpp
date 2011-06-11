@@ -34,6 +34,11 @@ void OpenFocus::Bootloader::Disconnect()
     device = NULL;
 }
 
+bool OpenFocus::Bootloader::IsConnected()
+{
+    return (device != NULL);
+}
+
 int OpenFocus::Bootloader::Reboot()
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT, 0, 0, NULL, 0, 5000);

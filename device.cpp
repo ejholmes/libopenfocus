@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include "openfocus.h"
+#include "usb.h"
 
 #define USB_RQ_MOVE_TO 0x00
 #define USB_RQ_HALT 0x01

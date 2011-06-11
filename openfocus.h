@@ -28,6 +28,7 @@ typedef union block {
 } block;
 #pragma pack(pop)
 
+/* Used to return eeprom data */
 typedef struct eeprom {
     unsigned short size;
     char *data;
