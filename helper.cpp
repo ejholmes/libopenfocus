@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <time.h>
 
 #include "openfocus.h"
@@ -24,4 +25,14 @@ int OpenFocus::Helper::ConnectBootloader()
         }
     }
     return 0;
+}
+
+double OpenFocus::Helper::Celsius(double kelvin)
+{
+    return kelvin - 273.15;
+}
+
+double OpenFocus::Helper::Fahrenheit(double kelvin)
+{
+    return ((9.00 / 5.00) * Celsius(kelvin)) + 32.00;
 }

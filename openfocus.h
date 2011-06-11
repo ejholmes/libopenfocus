@@ -16,6 +16,23 @@ typedef struct version {
     unsigned char major; /* Minor version number */
 } version;
 
+/* Type that is used to send a block of data for eeprom or flash writing */
+#pragma pack(push)
+#pragma pack(1)
+typedef union block {
+    struct {
+        unsigned short address; /* Address to put data */
+        char data[1]; /* Data to send */
+    };
+    char bytes[1]; /* This struct as bytes */
+} block;
+#pragma pack(pop)
+
+typedef struct eeprom {
+    unsigned short size;
+    char *data;
+} eeprom;
+
 namespace OpenFocus
 {
     class EXPORT Device
@@ -27,11 +44,10 @@ namespace OpenFocus
         static const unsigned short Product_ID; /* 0x416b */
 
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
-
+        int GetCapabilities(unsigned char *capabilities);
 
         struct usb_dev_handle *device;
     public:
-        int GetCapabilities(unsigned char *capabilities);
         Device();
         /* Connect to the device */
         bool Connect();
@@ -77,9 +93,6 @@ namespace OpenFocus
         /* Bootloader Product ID */
         static const unsigned short Product_ID; /* 0x416d */
 
-        /* Returns report from device, returns 8 bytes */
-        int GetReport();
-
         static struct usb_dev_handle *device;
     public:
         Bootloader();
@@ -99,12 +112,15 @@ namespace OpenFocus
         int Reboot();
 
         /* Requests length bytes from eeprom at address and puts it in data, returns number of bytes received */
-        unsigned short ReadEepromBlock(char *data, unsigned short address, int length);
+        block *ReadEepromBlock(unsigned short address, int length);
         /* Requests all the eeprom and stores it in data, returns size of data */
-        unsigned short ReadEeprom(char* data);
+        eeprom *ReadEeprom();
 
         /* Returns true if connected to bootloader */
         bool IsConnected();
+
+        /* Returns report from device, returns 8 bytes */
+        int GetReport();
 
         /* Page size of device */
         unsigned short PageSize;
@@ -121,6 +137,10 @@ namespace OpenFocus
           it will try to connect to the device and reboot it. If that also fails, it will
           return 0 */
         static int ConnectBootloader();
+        /* Converts kelvin to celsius */
+        static double Celsius(double kelvin);
+        /* Converts kelvin to fahrenheit */
+        static double Fahrenheit(double kelvin);
     };
 }
 
