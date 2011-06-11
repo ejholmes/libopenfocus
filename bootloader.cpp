@@ -21,7 +21,7 @@ OpenFocus::Bootloader::Bootloader()
 
 bool OpenFocus::Bootloader::Connect()
 {
-    if (!usb_open_device(&device, Vendor_ID, Product_ID))
+    if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))
         return false;
 
     return true;

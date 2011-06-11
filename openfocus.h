@@ -44,6 +44,13 @@ typedef struct eeprom {
     char *data;
 } eeprom;
 
+/* Type used for storing capabilities */
+typedef struct capabilities {
+    unsigned char absolutepositioning : 1;
+    unsigned char temperaturecompensation : 2;
+    unsigned char unused : 6;
+} capabilities;
+
 namespace OpenFocus
 {
     class EXPORT Device
@@ -62,6 +69,8 @@ namespace OpenFocus
         Device();
         /* Connect to the device */
         bool Connect();
+        /* Connect to the device with a specific serial number */
+        bool Connect(const char *serial);
         /* Disconnect from the device */
         void Disconnect();
         /* Asynchronously move to position */
@@ -122,9 +131,9 @@ namespace OpenFocus
         /* Exits bootloader by jumping to (void *)0 */
         int Reboot();
 
-        /* Requests length bytes from eeprom at address and puts it in data, returns number of bytes received */
+        /* Requests length bytes from eeprom at address and puts it in data, returns an eeprom block */
         block *ReadEepromBlock(unsigned short address, int length);
-        /* Requests all the eeprom and stores it in data, returns size of data */
+        /* Requests all the eeprom and stores it in data, returns eeprom data */
         eeprom *ReadEeprom();
 
         /* Returns true if connected to bootloader */
@@ -156,7 +165,7 @@ namespace OpenFocus
 }
 
 /* Opens a usb_dev_handle based on the vendor id and product id */
-static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int productId)
+static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int productId, const char *serial)
 {
     struct usb_bus *bus;
     struct usb_device *dev;
@@ -171,16 +180,31 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
                     dev->descriptor.idProduct == productId) {
                 handle = usb_open(dev);
                 if (handle) {
-                    usb_set_configuration(handle, 1);
-                    usb_claim_interface(handle, 0);
-                    *device = handle;
-                    return true;
+                    if (serial == NULL) {
+                        goto havedevice;
+                    }
+                    else {
+                        char devserial[256];
+                        int len = 0;
+                        if (dev->descriptor.iSerialNumber > 0) {
+                            len = usb_get_string_simple(handle, dev->descriptor.iSerialNumber, devserial, sizeof(devserial));
+                        }
+                        if (len > 0) {
+                            if (strcmp(devserial, serial) == 0) {
+                                goto havedevice;
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-
     return false;
+havedevice:
+    usb_set_configuration(handle, 1);
+    usb_claim_interface(handle, 0);
+    *device = handle;
+    return true;
 }
 
 /* Copies bytes from source to dest and swapping between big and little endian

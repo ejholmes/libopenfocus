@@ -26,9 +26,9 @@ OpenFocus::Device::Device()
     device = NULL;
 }
 
-bool OpenFocus::Device::Connect()
+bool OpenFocus::Device::Connect(const char *serial)
 {
-    if (!usb_open_device(&device, Vendor_ID, Product_ID))
+    if (!usb_open_device(&device, Vendor_ID, Product_ID, serial))
         return false;
 
     /* Get the capabilities from the device */
@@ -44,6 +44,11 @@ bool OpenFocus::Device::Connect()
     usb_get_string_simple(device, dev->descriptor.iSerialNumber, Serial, sizeof(Serial));
 
     return true;
+}
+
+bool OpenFocus::Device::Connect()
+{
+    return Connect(NULL);
 }
 
 void OpenFocus::Device::Disconnect()
