@@ -26,6 +26,6 @@ unix:!symbian {
     INSTALLS += target
 }
 
-LIBS += -Llibusb -lusb
+win32:LIBS += -Llibusb -lusb
 
 INCLUDEPATH += libusb

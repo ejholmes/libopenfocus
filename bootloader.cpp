@@ -60,12 +60,12 @@ int OpenFocus::Bootloader::GetReport()
 
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_REPORT, 0, 0, (char *)&report, sizeof(report), 5000);
 
-    if (retval != 0)
+    if (retval < 0)
         return retval;
 
-    endian_swap((unsigned char *)&PageSize, (unsigned char *)&report.pagesize, sizeof(report.pagesize));
-    endian_swap((unsigned char *)&FlashSize, (unsigned char *)&report.flashsize, sizeof(report.flashsize));
-    endian_swap((unsigned char *)&EEPROMSize, (unsigned char *)&report.eepromsize, sizeof(report.eepromsize));
+    PageSize = report.pagesize;
+    FlashSize = report.flashsize;
+    EEPROMSize = report.eepromsize;
 
     return retval;
 }
@@ -73,7 +73,7 @@ int OpenFocus::Bootloader::GetReport()
 int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const char *data, int length)
 {
     block *b = (block *)malloc(length + sizeof(address));
-    endian_swap((unsigned char *)&b->address, (unsigned char *)&address, sizeof(b->address));
+    b->address = address;
     memcpy(&b->data, data, length);
 
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
@@ -99,7 +99,7 @@ int OpenFocus::Bootloader::WriteEeprom(const char *data, int length)
 int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const char *data, int length)
 {
     block *b = (block *)malloc(length + sizeof(address));
-    endian_swap((unsigned char *)&b->address, (unsigned char *)&address, sizeof(b->address));
+    b->address = address;
     memcpy(&b->data, data, length);
 
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);

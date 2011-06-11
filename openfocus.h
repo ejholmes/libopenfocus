@@ -12,8 +12,8 @@
 #endif
 
 typedef struct version {
-    unsigned char major; /* Major version number */
-    unsigned char minor; /* Minor version number */
+    unsigned char minor; /* Major version number */
+    unsigned char major; /* Minor version number */
 } version;
 
 namespace OpenFocus
@@ -27,10 +27,11 @@ namespace OpenFocus
         static const unsigned short Product_ID; /* 0x416b */
 
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
-        int GetCapabilities(unsigned char *capabilities);
+
 
         struct usb_dev_handle *device;
     public:
+        int GetCapabilities(unsigned char *capabilities);
         Device();
         /* Connect to the device */
         bool Connect();
@@ -42,11 +43,11 @@ namespace OpenFocus
         int Halt();
         /* Reboot the device into the bootloader. Don't use this if you don't
          * know what you're doing */
-        int RebootToBootloader();
+        void RebootToBootloader();
         /* Set the current position on the device */
         int SetPosition(unsigned short position);
-        /* Gets the current temperature read by the LM335 on the device */
-        int GetTemperature(unsigned short *temperature);
+        /* Gets the current temperature read by the LM335 on the device in degrees kelvin */
+        int GetTemperature(double *temperature);
         /* Gets the current position from device */
         int GetPosition(unsigned short *position);
 
@@ -139,6 +140,8 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
                     dev->descriptor.idProduct == productId) {
                 handle = usb_open(dev);
                 if (handle) {
+                    usb_set_configuration(handle, 1);
+                    usb_claim_interface(handle, 0);
                     *device = handle;
                     return true;
                 }
@@ -151,11 +154,13 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
 
 /* Copies bytes from source to dest and swapping between big and little endian
  * in the process */
-static inline void endian_swap(unsigned char *dest, const unsigned char *source, int length)
+static inline void endian_swap(void *dest, const void *source, int length)
 {
+    unsigned char *dptr = (unsigned char *)dest;
+    unsigned char *sptr = (unsigned char *)source;
     int i;
     for (i = 0; i < length; i++) {
-        dest[0] = (source[length - i]);
+        dptr[i] = (sptr[length - i]);
     }
 }
 

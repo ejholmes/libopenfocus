@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <math.h>
 
 #include "openfocus.h"
 
@@ -56,9 +57,9 @@ bool OpenFocus::Device::IsConnected()
     return (device != NULL);
 }
 
-int OpenFocus::Device::RebootToBootloader()
+void OpenFocus::Device::RebootToBootloader()
 {
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT_TO_BOOTLOADER, 0, 0, NULL, 0, 5000);
+    usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT_TO_BOOTLOADER, 0, 0, NULL, 0, 5000);
 }
 
 int OpenFocus::Device::MoveTo(unsigned short position)
@@ -68,7 +69,7 @@ int OpenFocus::Device::MoveTo(unsigned short position)
 
 int OpenFocus::Device::SetPosition(unsigned short position)
 {
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_MOVE_TO, (int)position, 0, NULL, 0, 5000);
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_SET_POSITION, (int)position, 0, NULL, 0, 5000);
 }
 
 int OpenFocus::Device::Halt()
@@ -79,37 +80,31 @@ int OpenFocus::Device::Halt()
 bool OpenFocus::Device::IsMoving()
 {
     char ismoving;
-    usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_IS_MOVING, 0, 0, &ismoving, 1, 5000);
+    usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_IS_MOVING, 0, 0, &ismoving, sizeof(bool), 5000);
     return (bool)ismoving;
 }
 
-int OpenFocus::Device::GetTemperature(unsigned short *temperature)
+int OpenFocus::Device::GetTemperature(double *temperature)
 {
-    char temp[2];
     int retval;
-    retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_TEMPERATURE, 0, 0, temp, 2, 5000);
+    unsigned short adc;
+    retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_TEMPERATURE, 0, 0, (char *)&adc, sizeof(unsigned short), 5000);
 
-    if (retval != 0)
+    if (retval < 0)
         return retval;
 
-    endian_swap((unsigned char *)temperature, (unsigned char *)temp, sizeof(temp));
+    *temperature = (5.00 * (double)adc * 100.00) / 1024.00; /* Convert ADC value to absolute temperature */
+    *temperature = round(*temperature * 100.00) / 100.00; /* Round to two decimal places */
+
     return retval;
 }
 
 int OpenFocus::Device::GetPosition(unsigned short *position)
 {
-    char pos[2];
-    int retval;
-    retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_POSITION, 0, 0, pos, 2, 5000);
-
-    if (retval != 0)
-        return retval;
-
-    endian_swap((unsigned char *)position, (unsigned char *)pos, sizeof(pos));
-    return retval;
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_POSITION, 0, 0, (char *)position, sizeof(unsigned short), 5000);
 }
 
 int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
 {
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)capabilities, 1, 5000);
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)capabilities, sizeof(unsigned char), 5000);
 }
