@@ -18,8 +18,8 @@
 #define CAP_ABSOLUTE_POSITIONING 0x01
 #define CAP_TEMPERATURE_COMPENSATION 0x02
 
-const unsigned short OpenFocus::Device::Vendor_ID = 0x20a0;
-const unsigned short OpenFocus::Device::Product_ID = 0x416b;
+const unsigned short OpenFocus::Device::Vendor_ID = DEVICE_VID;
+const unsigned short OpenFocus::Device::Product_ID = DEVICE_PID;
 
 OpenFocus::Device::Device()
 {

@@ -11,6 +11,16 @@
 #define EXPORT
 #endif
 
+/* ------------------
+ * VID/PID pairs
+ * ------------------ */
+#define DEVICE_VID 0x20a0
+#define DEVICE_PID 0x416b
+
+#define BOOTLOADER_VID 0x20a0
+#define BOOTLOADER_PID 0x416d
+
+/* Type used for reporting firmware version */
 typedef struct version {
     unsigned char minor; /* Major version number */
     unsigned char major; /* Minor version number */

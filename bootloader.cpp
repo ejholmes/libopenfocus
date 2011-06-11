@@ -10,8 +10,8 @@
 #define USB_RQ_WRITE_EEPROM_BLOCK 0x04
 #define USB_RQ_READ_EEPROM_BLOCK 0x05
 
-const unsigned short OpenFocus::Bootloader::Vendor_ID = 0x20a0;
-const unsigned short OpenFocus::Bootloader::Product_ID = 0x416d;
+const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
+const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
 struct usb_dev_handle *OpenFocus::Bootloader::device = NULL;
 
