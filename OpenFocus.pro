@@ -13,10 +13,12 @@ CONFIG += staticlib
 SOURCES += \
     helper.cpp \
     device.cpp \
-    bootloader.cpp
+    bootloader.cpp \
+    intelhex.cpp
 
 HEADERS += openfocus.h \
-    libusb/usb.h
+    libusb/usb.h \
+    intelhex.h
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib
@@ -27,5 +29,7 @@ unix:!symbian {
 }
 
 win32:LIBS += -Llibusb -lusb
+macx:LIBS += -L/usr/local/CrossPack-AVR/lib -lusb -Wl,-framework -Wl,IOKit -Wl,-framework -Wl,CoreFoundation -Wl,-prebind
 
-INCLUDEPATH += libusb
+win32:INCLUDEPATH += libusb
+macx:INCLUDEPATH += /usr/local/CrossPack-AVR/include

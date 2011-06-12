@@ -46,7 +46,6 @@ int OpenFocus::Bootloader::Reboot()
 
 int OpenFocus::Bootloader::GetReport()
 {
-#pragma pack(push)
 #pragma pack(1)
     union {
         struct {
@@ -56,7 +55,7 @@ int OpenFocus::Bootloader::GetReport()
         };
         char bytes[8];
     } report;
-#pragma pack(pop)
+#pragma pack()
 
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_REPORT, 0, 0, report.bytes, sizeof(report), 5000);
 

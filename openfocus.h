@@ -22,21 +22,20 @@
 
 /* Type used for reporting firmware version */
 typedef struct version {
-    unsigned char minor; /* Major version number */
-    unsigned char major; /* Minor version number */
+    unsigned char minor; /* Minor version number */
+    unsigned char major; /* Major version number */
 } version;
 
 /* Type that is used to send a block of data for eeprom or flash writing */
-#pragma pack(push)
 #pragma pack(1)
 typedef union block {
     struct {
         unsigned short address; /* Address to put data */
-        char data[1]; /* Data to send */
+        char data[]; /* Data to send */
     };
-    char bytes[1]; /* This struct as bytes */
+    char bytes[]; /* This struct as bytes */
 } block;
-#pragma pack(pop)
+#pragma pack()
 
 /* Used to return eeprom data */
 typedef struct eeprom {
