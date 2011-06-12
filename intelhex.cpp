@@ -4,8 +4,11 @@
 
 #include "intelhex.h"
 
-IntelHexFile *IntelHexFile::Create(const char *data, int byte_count)
+char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
 {
+    record current;
+
+    return NULL;
 }
 
 record *IntelHexFile::Open(FILE *fp)
@@ -24,6 +27,11 @@ record *IntelHexFile::Open(FILE *fp)
     }
 
     return head;
+}
+
+char *IntelHexFile::RecordToString(record *rec)
+{
+    return NULL;
 }
 
 record *IntelHexFile::ParseLine(FILE *fp)
@@ -75,6 +83,9 @@ record *IntelHexFile::ParseLine(FILE *fp)
     free(buffer);
 
     rec->next = NULL;
+
+    if (!VerifyChecksum(rec))
+        return NULL;
 
     return rec;
 }

@@ -1,6 +1,7 @@
 #ifndef INTELHEX_H
 #define INTELHEX_H
 
+#include "stdlib.h"
 #include "stdio.h"
 
 /* Record types */
@@ -37,9 +38,12 @@ private:
     /* Parses a line */
     record *ParseLine(FILE *fp);
 
+    /* Converts a record to a string record */
+    char *RecordToString(record *rec);
+
 public:
     /* Creates an intel hex file from data */
-    static IntelHexFile *Create(const char *data, int byte_count);
+    static char *Create(const char *data, size_t length, int byte_count);
 
     /* Opens a file in intel hex format and returns a pointer to a linked list records */
     record *Open(FILE *fp);
