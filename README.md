@@ -12,6 +12,7 @@ in your program.
 Usage
 -----
 C++
+
 ```
 #include <stdio.h>
 
@@ -30,10 +31,11 @@ int main()
     }
 }
 ```
-Compile with ``g++ -I"path to openfocus.h" main.cpp
-`libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.
+
+Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.
 
 C
+
 ```
 #include <stdio.h>
 
@@ -52,3 +54,5 @@ int main()
     }
 }
 ```
+
+Compile with ``gcc -lstdc++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.
