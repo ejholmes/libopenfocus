@@ -53,4 +53,4 @@ int main()
 }
 ```
 
-Compile with ``gcc -lstdc++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.
+Compile with ``gcc -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus -lstdc++``.
