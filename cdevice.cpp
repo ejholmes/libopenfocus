@@ -11,9 +11,22 @@
 using namespace OpenFocus;
 
 extern "C" {
-    CDevice *device_create() { return (CDevice *)new Device(); }
-    int device_connect(CDevice *device) { return device->Connect(); }
-    int device_connect_serial(CDevice *device, const char *serial) { return device->Connect(serial); }
+    CDevice *device_connect()
+    {
+        return device_connect_serial(NULL);
+    }
+
+    CDevice *device_connect_serial(const char *serial)
+    {
+        Device *dev = new Device();
+
+        if (dev->Connect(serial))
+            return (CDevice *)dev;
+        else
+            return NULL;
+    }
+
+    void device_disconnect(CDevice *device) { device->Disconnect(); }
     int device_move_to(CDevice *device, unsigned short position) { return device->MoveTo(position); }
     int device_halt(CDevice *device) { return device->Halt(); }
     void device_reboot_to_bootloader(CDevice *device) { device->RebootToBootloader(); }

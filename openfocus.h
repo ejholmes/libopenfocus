@@ -178,9 +178,9 @@ typedef void CBootloader;
 #ifdef __cplusplus
 extern "C" {
 #endif
-    CDevice *device_create();
-    int device_connect(CDevice *device);
-    int device_connect_serial(CDevice *device, const char *serial);
+    CDevice *device_connect();
+    CDevice *device_connect_serial(const char *serial);
+    void device_disconnect(CDevice *device);
     int device_move_to(CDevice *device, unsigned short position);
     int device_halt(CDevice *device);
     void device_reboot_to_bootloader(CDevice *device);
