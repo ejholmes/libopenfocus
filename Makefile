@@ -34,14 +34,13 @@ OUTPUT = lib$(NAME).a
 all: $(OUTPUT)
 
 .cpp.o:
-	$(CPP) $(CFLAGS) -c $<
+	$(CPP) $(CFLAGS) -c $< $(LIBS)
 
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
 $(OUTPUT): $(OBJECTS)
-        $(CPP) $(CFLAGS) -o $(NAME).o $(OBJECTS) $(LIBS)
-	ar rcs $(OUTPUT) $(NAME).o
+	ar rcs $(OUTPUT) $(OBJECTS)
 
 clean:
 	rm -f *.o $(OUTPUT) *.exe *.a
