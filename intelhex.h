@@ -1,8 +1,8 @@
 #ifndef INTELHEX_H
 #define INTELHEX_H
 
-#include "stdlib.h"
-#include "stdio.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /* Record types */
 enum record_type {
@@ -16,13 +16,13 @@ enum record_type {
 
 /* Struct that represents intel hex format */
 typedef struct record {
-    char start;
-    unsigned int byte_count;
-    unsigned int address;
-    enum record_type type;
-    unsigned int *data;
-    int checksum;
-    struct record *next;
+    char start;                 /* ':' */
+    unsigned char byte_count;   /* Number of bytes in data, usually 8 or 16 */
+    unsigned short address;     /* Address where data goes */
+    enum record_type type;      /* Record type */
+    unsigned char *data;        /* Data */
+    int checksum;               /* Twos compliment of the sum of all fields except start and checksum */
+    struct record *next;        /* Next record in the list */
 } record;
 
 class IntelHexFile
@@ -30,23 +30,27 @@ class IntelHexFile
 private:
 
     /* Calculates the twos compliment of a line */
-    int TwosCompliment(record *rec);
+    static int TwosCompliment(record *rec);
 
     /* Checks the checksum against the calculated twos compliment */
-    bool VerifyChecksum(record *rec);
+    static bool VerifyChecksum(record *rec);
 
     /* Parses a line */
-    record *ParseLine(FILE *fp);
+    static record *ParseLine(FILE *fp);
 
     /* Converts a record to a string record */
-    char *RecordToString(record *rec);
+    static char *RecordToString(record *rec);
+
+    /* Reads some number of characters from fp and converts it from a hex number to int */
+    static int ReadBytes(FILE *fp, int length);
 
 public:
     /* Creates an intel hex file from data */
     static char *Create(const char *data, size_t length, int byte_count);
 
     /* Opens a file in intel hex format and returns a pointer to a linked list records */
-    record *Open(FILE *fp);
+    static record *Open(FILE *fp);
+    static record *Open(const char *data, int length);
 };
 
 

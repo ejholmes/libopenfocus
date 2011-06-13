@@ -1,6 +1,7 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "string"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
 
 #include "intelhex.h"
 
@@ -11,10 +12,21 @@ char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
     return NULL;
 }
 
+record *IntelHexFile::Open(const char *data, int length)
+{
+    FILE *tmp = tmpfile();
+
+    assert(tmp != NULL);
+
+    fwrite(data, 1, length, tmp);
+    rewind(tmp);
+
+    return Open(tmp);
+}
+
 record *IntelHexFile::Open(FILE *fp)
 {
-    if (fp == NULL)
-        return NULL;
+    assert(fp != NULL);
 
     record *current = NULL, *head = NULL, *last = NULL;
 
@@ -37,50 +49,33 @@ char *IntelHexFile::RecordToString(record *rec)
 record *IntelHexFile::ParseLine(FILE *fp)
 {
     record *rec = (record *)malloc(sizeof(record));
-    char *buffer, start;
+    char  start;
 
-    while ((start = fgetc(fp)) != ':') { }
+    while ((start = fgetc(fp)) != ':') { } /* move forward until we find the start of the record */
 
     /* Read start */
     rec->start = start;
 
     /* Read byte count */
-    buffer = (char *)realloc(buffer, 3); /* 2 + '\0' */
-    fread(buffer, 2, 1, fp);
-    buffer[2] = '\0';
-    sscanf(buffer, "%x", &rec->byte_count);
+    rec->byte_count = (unsigned char)ReadBytes(fp, 2);
 
     /* Read address */
-    buffer = (char *)realloc(buffer, 5); /* 4 + '\0' */
-    fread(buffer, 4, 1, fp);
-    buffer[4] = '\0';
-    sscanf(buffer, "%x", &rec->address);
+    rec->address = (unsigned short)ReadBytes(fp, 4);
 
     /* Read record type */
-    buffer = (char *)realloc(buffer, 3); /* 2 + '\0' */
-    fread(buffer, 2, 1, fp);
-    buffer[2] = '\0';
-    sscanf(buffer, "%x", (int *)&rec->type);
+    rec->type = (enum record_type)ReadBytes(fp, 2);
 
     if (rec->type == end_of_file)
         return NULL;
 
     /* Read data */
-    buffer = (char *)realloc(buffer, 3);
     unsigned int i;
     for (i = 0; i < rec->byte_count; i++) {
-        fread(buffer, 2, 1, fp);
-        buffer[2] = '\0';
-        sscanf(buffer, "%x", &rec->data[i]);
+        rec->data[i] = (unsigned char)ReadBytes(fp, 2);
     }
 
     /* Read checksum */
-    buffer = (char *)realloc(buffer, 3); /* 2 + '\0' */
-    fread(buffer, 2, 1, fp);
-    buffer[2] = '\0';
-    sscanf(buffer, "%x", &rec->checksum);
-
-    free(buffer);
+    rec->checksum = ReadBytes(fp, 2);
 
     rec->next = NULL;
 
@@ -88,6 +83,21 @@ record *IntelHexFile::ParseLine(FILE *fp)
         return NULL;
 
     return rec;
+}
+
+int IntelHexFile::ReadBytes(FILE *fp, int length)
+{
+    char *buffer = NULL;
+    int field = 0;
+
+    buffer = (char *)malloc(length + 1);
+    fread(buffer, length, sizeof(char), fp);
+    buffer[length] = '\0';
+    sscanf(buffer, "%x", &field); /* Conver the string from a hex number to int */
+
+    free(buffer);
+
+    return field;
 }
 
 int IntelHexFile::TwosCompliment(record *rec)
