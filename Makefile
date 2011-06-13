@@ -11,14 +11,12 @@ ifeq ($(UNAME), Darwin)
 	USBFLAGS = `libusb-config --cflags`
 	USBLIBS = `libusb-config --libs`
 	LINKER = 
-	EXTENSION = .a
 else
 	# Use the following 3 lines on Windows and comment out the 3 above. You may
 	# have to change the include paths to where you installed libusb-win32
 	USBFLAGS = -I/usr/local/include
 	USBLIBS = -L/usr/local/lib -lusb
 	LINKER = -Wl,--out-implib,lib$(NAME).a
-	EXTENSION = .dll
 endif
 
 NAME = openfocus
@@ -41,13 +39,8 @@ all: $(OUTPUT)
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-ifeq ($(UNAME), Darwin)
 $(OUTPUT): $(OBJECTS)
 	ar rcs $(OUTPUT) $(OBJECTS)
-else
-$(OUTPUT): $(OBJECTS)
-	$(CPP) -shared -o $(OUTPUT) $(OBJECTS) $(LIBS) $(LINKER)
-endif
 
 clean:
 	rm -f *.o $(OUTPUT) *.exe *.a
