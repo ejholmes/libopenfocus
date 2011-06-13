@@ -28,7 +28,7 @@ CPP     = g++
 CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -Wall
 LIBS	= $(USBLIBS)
 
-OUTPUT = lib$(NAME)$(EXTENSION)
+OUTPUT = lib$(NAME).a
 
 
 all: $(OUTPUT)
