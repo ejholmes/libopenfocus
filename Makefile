@@ -40,7 +40,8 @@ all: $(OUTPUT)
 	$(CC) $(CFLAGS) -c $<
 
 $(OUTPUT): $(OBJECTS)
-	ar rcs $(OUTPUT) $(OBJECTS)
+        $(CPP) $(CFLAGS) -o $(NAME).o $(OBJECTS) $(LIBS)
+	ar rcs $(OUTPUT) $(NAME).o
 
 clean:
 	rm -f *.o $(OUTPUT) *.exe *.a
