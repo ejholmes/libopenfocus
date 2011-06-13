@@ -5,9 +5,7 @@ Includes a QT project and a makefile for compiling from command line.
 
 Compiling
 ---------
-If you have QT, open OpenFocus.pro and build the project. If not, run make in
-the directory. Both will generate a libopenfocus.a that you can statically link
-in your program.
+Run `make`. This will build a libopenfocus.a that you can link against in your program.
 
 Usage
 -----
