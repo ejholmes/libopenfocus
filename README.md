@@ -11,7 +11,7 @@ in your program.
 
 Usage
 -----
-*C++*
+**C++**
 
 ```
 #include <stdio.h>
@@ -34,7 +34,7 @@ int main()
 
 Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.
 
-*C*
+**C**
 
 ```
 #include <stdio.h>
@@ -43,7 +43,8 @@ Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"pa
 
 int main()
 {
-    CDevice *handle = device_create();
+    CDevice *handle;
+    handle = device_create();
     
     if (device_connect(handle)) {
         printf("Connected to OpenFocus device\n");
