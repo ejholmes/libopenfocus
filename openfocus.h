@@ -24,15 +24,6 @@ typedef struct version {
 
 /* Type that is used to send a block of data for eeprom or flash writing */
 #pragma pack(1)
-#ifdef __cplusplus
-typedef union block {
-    struct {
-        unsigned short address; /* Address to put data */
-        char data[]; /* Data to send */
-    };
-    char bytes[]; /* This struct as bytes */
-} block;
-#else
 typedef union block {
     struct {
         unsigned short address;
@@ -40,7 +31,6 @@ typedef union block {
     };
     char bytes[1];
 } block;
-#endif // __cplusplus
 #pragma pack()
 
 /* Used to return eeprom data */
