@@ -14,7 +14,8 @@ SOURCES += \
     helper.cpp \
     device.cpp \
     bootloader.cpp \
-    intelhex.cpp
+    intelhex.cpp \
+    cdevice.cpp
 
 HEADERS += openfocus.h \
     libusb/usb.h \

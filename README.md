@@ -12,6 +12,8 @@ in your program.
 Usage
 -----
 ```
+#include <stdio.h>
+
 #include "openfocus.h"
 
 int main()

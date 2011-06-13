@@ -1,10 +1,6 @@
 #ifndef OPENFOCUS_H
 #define OPENFOCUS_H
 
-#include <iostream>
-
-//#include "usb.h"
-
 #ifdef __WIN32__
 #define EXPORT __declspec(dllexport)
 #else
@@ -28,6 +24,7 @@ typedef struct version {
 
 /* Type that is used to send a block of data for eeprom or flash writing */
 #pragma pack(1)
+#ifdef __cplusplus
 typedef union block {
     struct {
         unsigned short address; /* Address to put data */
@@ -35,6 +32,15 @@ typedef union block {
     };
     char bytes[]; /* This struct as bytes */
 } block;
+#else
+typedef union block {
+    struct {
+        unsigned short address;
+        char data[1];
+    };
+    char bytes[1];
+} block;
+#endif // __cplusplus
 #pragma pack()
 
 /* Used to return eeprom data */
@@ -50,6 +56,7 @@ typedef struct capabilities {
     unsigned char unused : 6;
 } capabilities;
 
+#ifdef __cplusplus
 namespace OpenFocus
 {
     class EXPORT Device
@@ -158,5 +165,36 @@ namespace OpenFocus
         static double Fahrenheit(double kelvin);
     };
 }
+#endif
+
+#ifdef __cplusplus
+typedef OpenFocus::Device CDevice;
+typedef OpenFocus::Bootloader CBootloader;
+#else
+typedef void CDevice;
+typedef void CBootloader;
+#endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    CDevice *device_create();
+    int device_connect(CDevice *device);
+    int device_connect_serial(CDevice *device, const char *serial);
+    int device_move_to(CDevice *device, unsigned short position);
+    int device_halt(CDevice *device);
+    void device_reboot_to_bootloader(CDevice *device);
+    int device_set_position(CDevice *device, unsigned short position);
+    int device_get_temperature(CDevice *device, double *temperature);
+    int device_get_position(CDevice *device, unsigned short *position);
+    int device_is_moving(CDevice *device);
+    int device_is_connected(CDevice *device);
+    char *device_get_serial(CDevice *device);
+    version device_get_firmware_version(CDevice *device);
+    int device_can_absolute_position(CDevice *device);
+    int device_can_temperature_compensate(CDevice *device);
+#ifdef __cplusplus
+}
+#endif
 
 #endif // OPENFOCUS_H

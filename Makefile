@@ -23,7 +23,7 @@ endif
 
 NAME = openfocus
 
-OBJECTS = device.o bootloader.o helper.o intelhex.o
+OBJECTS = device.o bootloader.o helper.o intelhex.o cdevice.o
 
 CC		= gcc
 CPP     = g++
