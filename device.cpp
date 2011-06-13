@@ -4,6 +4,7 @@
 
 #include "openfocus.h"
 #include "usb.h"
+#include "util.h"
 
 #define USB_RQ_MOVE_TO 0x00
 #define USB_RQ_HALT 0x01
@@ -20,6 +21,8 @@
 
 const unsigned short OpenFocus::Device::Vendor_ID = DEVICE_VID;
 const unsigned short OpenFocus::Device::Product_ID = DEVICE_PID;
+
+struct usb_dev_handle *device;
 
 OpenFocus::Device::Device()
 {

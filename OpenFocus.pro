@@ -18,7 +18,8 @@ SOURCES += \
 
 HEADERS += openfocus.h \
     libusb/usb.h \
-    intelhex.h
+    intelhex.h \
+    util.h
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib

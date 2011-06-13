@@ -27,5 +27,5 @@ int main()
     }
 }
 ```
-Compile with ``g++ `libusb-config --cflags` -I"path to openfocus.h" main.cpp
+Compile with ``g++ -I"path to openfocus.h" main.cpp
 `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.

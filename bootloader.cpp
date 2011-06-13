@@ -3,6 +3,7 @@
 
 #include "usb.h"
 #include "openfocus.h"
+#include "util.h"
 
 #define USB_RQ_REBOOT 0x01
 #define USB_RQ_WRITE_FLASH_BLOCK 0x02
@@ -13,7 +14,7 @@
 const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
 const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
-struct usb_dev_handle *OpenFocus::Bootloader::device = NULL;
+struct usb_dev_handle *device = NULL;
 
 OpenFocus::Bootloader::Bootloader()
 {
