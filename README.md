@@ -51,3 +51,4 @@ int main()
         printf("Could not find OpenFocus device\n");
     }
 }
+```
