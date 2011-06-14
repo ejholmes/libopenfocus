@@ -9,7 +9,8 @@ Run `make`. This will build a libopenfocus.a that you can link against in your p
 
 Usage
 -----
-The follow shows a simple example of how to use the library in a C/C++ application.
+The follow shows a simple example of how to use the library in a C/C++ application.  
+
 **C++**
 
 ```
