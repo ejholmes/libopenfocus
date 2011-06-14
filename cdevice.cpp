@@ -24,7 +24,7 @@ extern "C" {
         return 1;
     }
     int device_connect(Device **device) { return device_connect_serial(device, NULL); }
-    void device_disconnect(Device *device) { device->Disconnect(); }
+    void device_disconnect(Device *device) { device->Disconnect(); delete device; }
     int device_move_to(Device *device, unsigned short position) { return device->MoveTo(position); }
     int device_halt(Device *device) { return device->Halt(); }
     void device_reboot_to_bootloader(Device *device) { device->RebootToBootloader(); }

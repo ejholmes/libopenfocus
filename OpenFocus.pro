@@ -32,7 +32,7 @@ unix:!symbian {
 
 win32:LIBS += -Llibusb -lusb
 macx:LIBS += -L/usr/local/CrossPack-AVR/lib -lusb -Wl,-framework -Wl,IOKit -Wl,-framework -Wl,CoreFoundation -Wl,-prebind
-unix:LIBS += -L/usr/lib -lusb
+unix:LIBS += -lusb
 
 win32:INCLUDEPATH += libusb
 macx:INCLUDEPATH += /usr/local/CrossPack-AVR/include

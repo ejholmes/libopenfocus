@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string.h>
 #include <math.h>
+#include <sys/time.h>
 
 #include "openfocus.h"
 #include "usb.h"
@@ -24,7 +25,9 @@ const unsigned short OpenFocus::Device::Product_ID = DEVICE_PID;
 
 OpenFocus::Device::Device()
 {
-
+    TemperatureCoefficient = 0.0;
+    TempCompEnabled = false;
+    LastTemperature = 0.0;
 }
 
 bool OpenFocus::Device::Connect(const char *serial)
@@ -114,4 +117,36 @@ int OpenFocus::Device::GetPosition(unsigned short *position)
 int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)capabilities, sizeof(unsigned char), 5000);
+}
+
+void OpenFocus::Device::DoTempComp()
+{
+    if (TempCompEnabled && !IsMoving()) {
+        double CurrentTemperature;
+        GetTemperature(&CurrentTemperature);
+
+        unsigned short position;
+        GetPosition(&position);
+
+        double delta = CurrentTemperature - LastTemperature;
+        MoveTo((unsigned short)(position + (TemperatureCoefficient * delta)));
+
+        LastTemperature = CurrentTemperature;
+    }
+}
+
+void OpenFocus::Device::EnableTemperatureCompensation()
+{
+    TempCompEnabled = true;
+    GetTemperature(&LastTemperature);
+}
+
+void OpenFocus::Device::DisableTemperatureCompensation()
+{
+    TempCompEnabled = false;
+}
+
+bool OpenFocus::Device::TemperatureCompensationEnabled()
+{
+    return TempCompEnabled;
 }

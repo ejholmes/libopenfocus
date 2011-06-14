@@ -7,6 +7,8 @@
 #define EXPORT
 #endif
 
+#define LIBOPENFOCUS_VER 0x01, 0x00 /* minor, major */
+
 /* ------------------
  * VID/PID pairs
  * ------------------ */
@@ -64,7 +66,11 @@ namespace OpenFocus
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
         int GetCapabilities(unsigned char *capabilities);
 
+        /* Handle to the usb device */
         dev_handle *device;
+
+        bool TempCompEnabled;
+        double LastTemperature;
     public:
         Device();
         /* Connect to the device */
@@ -87,6 +93,18 @@ namespace OpenFocus
         /* Gets the current position from device */
         int GetPosition(unsigned short *position);
 
+        /* Starts temperature compensation */
+        void EnableTemperatureCompensation();
+        /* Stops temperature compensation */
+        void DisableTemperatureCompensation();
+        /* Returns true if temperature compensation is enabled */
+        bool TemperatureCompensationEnabled();
+        /* Should be called by the client. A good idea is to setup a timer that calls this
+         * consistently at a set interval. It will only perform temperature compensation if
+         * EnableTemperatureCompensation() has been called. If you call DisableTemperatureCompensation(),
+         * this function will have no effect. */
+        void DoTempComp();
+
         /* Returns true if the device is currently moving */
         bool IsMoving();
         /* Returns true if the device is connected */
@@ -102,6 +120,9 @@ namespace OpenFocus
         bool AbsolutePositioning;
         /* True if the device supports temperature compensation */
         bool TemperatureCompensation;
+
+        /* Current temperature coefficient to use during temperature compensation */
+        double TemperatureCoefficient;
     };
 
     /* Functions for communicating with the bootloader. DON'T USE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING */
@@ -143,11 +164,11 @@ namespace OpenFocus
         int GetReport();
 
         /* Page size of device */
-        unsigned short PageSize;
+        static unsigned short PageSize;
         /* Flash size of device */
-        unsigned short FlashSize;
+        static unsigned short FlashSize;
         /* EEPROM size */
-        unsigned short EEPROMSize;
+        static unsigned short EEPROMSize;
     };
 
     class Helper

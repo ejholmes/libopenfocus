@@ -14,6 +14,10 @@
 const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
 const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
+unsigned short OpenFocus::Bootloader::PageSize = 0;
+unsigned short OpenFocus::Bootloader::FlashSize = 0;
+unsigned short OpenFocus::Bootloader::EEPROMSize = 0;
+
 dev_handle *OpenFocus::Bootloader::device = NULL;
 
 OpenFocus::Bootloader::Bootloader()
@@ -24,6 +28,9 @@ OpenFocus::Bootloader::Bootloader()
 bool OpenFocus::Bootloader::Connect()
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))
+        return false;
+
+    if (GetReport() < 0)
         return false;
 
     return true;
