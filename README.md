@@ -3,8 +3,8 @@ bootloader. For more information about OpenFocus, see https://github.com/CortexA
 
 Includes a QT project and a makefile for compiling from command line.
 
-Compiling
----------
+Compiling From Source
+---------------------
 Run `make`. This will build a libopenfocus.a that you can link against in your program.
 
 Usage
@@ -36,9 +36,9 @@ int main()
 }
 ```
 
-**Linux/Mac**: Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``. 
+Linux/Mac: Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``. 
 
-**Windows**: Compile with ``g++ -I"path to openfocus.h" main.cpp libopenfocus.dll``. _Requires libopenfocus.dll to be in the same directory as the application_
+Windows: Compile with ``g++ -I"path to openfocus.h" main.cpp libopenfocus.dll``. _Requires libopenfocus.dll to be in the same directory as the application_
 
 ---------------------------------------------------------------------------------------
 
@@ -67,6 +67,6 @@ int main()
 }
 ```
 
-**Linux/Mac**: Compile with ``gcc -I"path to openfocus.h" main.c `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus -lstdc++``. 
+Linux/Mac: Compile with ``gcc -I"path to openfocus.h" main.c `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus -lstdc++``. 
 
-**Windows**: Compile with ``gc -I"path to openfocus.h" main.c libopenfocus.dll -lstdc++``. _Requires libopenfocus.dll to be in the same directory as the application_
+Windows: Compile with ``gc -I"path to openfocus.h" main.c libopenfocus.dll -lstdc++``. _Requires libopenfocus.dll to be in the same directory as the application_
