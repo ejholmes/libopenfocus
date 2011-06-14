@@ -39,6 +39,11 @@ typedef struct eeprom {
     char *data;
 } eeprom;
 
+#ifndef __cplusplus
+typedef void Device;
+typedef void Bootloader;
+#endif
+
 #ifdef __cplusplus
 namespace OpenFocus
 {
@@ -154,36 +159,29 @@ namespace OpenFocus
         /* Converts kelvin to fahrenheit */
         static double Fahrenheit(double kelvin);
     };
-}
 #endif
 
+/* C Comptability functions */
 #ifdef __cplusplus
-typedef OpenFocus::Device CDevice;
-typedef OpenFocus::Bootloader CBootloader;
-#else
-typedef void CDevice;
-typedef void CBootloader;
+    extern "C" {
 #endif
-
+        Device *device_connect();
+        Device *device_connect_serial(const char *serial);
+        void device_disconnect(Device *device);
+        int device_move_to(Device *device, unsigned short position);
+        int device_halt(Device *device);
+        void device_reboot_to_bootloader(Device *device);
+        int device_set_position(Device *device, unsigned short position);
+        int device_get_temperature(Device *device, double *temperature);
+        int device_get_position(Device *device, unsigned short *position);
+        int device_is_moving(Device *device);
+        int device_is_connected(Device *device);
+        char *device_get_serial(Device *device);
+        version device_get_firmware_version(Device *device);
+        int device_can_absolute_position(Device *device);
+        int device_can_temperature_compensate(Device *device);
 #ifdef __cplusplus
-extern "C" {
-#endif
-    CDevice *device_connect();
-    CDevice *device_connect_serial(const char *serial);
-    void device_disconnect(CDevice *device);
-    int device_move_to(CDevice *device, unsigned short position);
-    int device_halt(CDevice *device);
-    void device_reboot_to_bootloader(CDevice *device);
-    int device_set_position(CDevice *device, unsigned short position);
-    int device_get_temperature(CDevice *device, double *temperature);
-    int device_get_position(CDevice *device, unsigned short *position);
-    int device_is_moving(CDevice *device);
-    int device_is_connected(CDevice *device);
-    char *device_get_serial(CDevice *device);
-    version device_get_firmware_version(CDevice *device);
-    int device_can_absolute_position(CDevice *device);
-    int device_can_temperature_compensate(CDevice *device);
-#ifdef __cplusplus
+    }
 }
 #endif
 

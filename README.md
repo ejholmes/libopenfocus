@@ -41,7 +41,7 @@ Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"pa
 
 int main()
 {
-    CDevice *handle;
+    Device *handle;
     
     if ((handle = device_connect()) != NULL) {
         printf("Connected to OpenFocus device\n");
