@@ -50,7 +50,7 @@ static inline void endian_swap(void *dest, const void *source, int length)
 {
     int i;
     for (i = 0; i < length; i++) {
-        dest[i] = (source[length - i]);
+        ((char *)dest)[i] = (((char *)source)[length - i]);
     }
 }
 
