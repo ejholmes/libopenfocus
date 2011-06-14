@@ -16,6 +16,11 @@ const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
 dev_handle *OpenFocus::Bootloader::device = NULL;
 
+OpenFocus::Bootloader::Bootloader()
+{
+
+}
+
 bool OpenFocus::Bootloader::Connect()
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))

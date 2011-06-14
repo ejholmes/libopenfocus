@@ -22,6 +22,11 @@
 const unsigned short OpenFocus::Device::Vendor_ID = DEVICE_VID;
 const unsigned short OpenFocus::Device::Product_ID = DEVICE_PID;
 
+OpenFocus::Device::Device()
+{
+
+}
+
 bool OpenFocus::Device::Connect(const char *serial)
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, serial))
