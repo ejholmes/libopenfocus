@@ -39,6 +39,9 @@ typedef struct eeprom {
     char *data;
 } eeprom;
 
+typedef struct usb_dev_handle dev_handle;
+
+/* Typedef the classes to void for use with C */
 #ifndef __cplusplus
 typedef void Device;
 typedef void Bootloader;
@@ -61,7 +64,7 @@ namespace OpenFocus
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
         int GetCapabilities(unsigned char *capabilities);
 
-        void *device;
+        dev_handle *device;
     public:
         Device();
         /* Connect to the device */
@@ -110,7 +113,7 @@ namespace OpenFocus
         /* Bootloader Product ID */
         static const unsigned short Product_ID; /* 0x416d */
 
-        static void *device;
+        static dev_handle *device;
     public:
         Bootloader();
         /* Connect to the bootloader */

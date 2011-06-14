@@ -14,11 +14,11 @@
 const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
 const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
-void *OpenFocus::Bootloader::device = NULL;
+dev_handle *OpenFocus::Bootloader::device = NULL;
 
 bool OpenFocus::Bootloader::Connect()
 {
-    if (!usb_open_device((usb_dev_handle **)&device, Vendor_ID, Product_ID, NULL))
+    if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))
         return false;
 
     return true;
@@ -27,7 +27,7 @@ bool OpenFocus::Bootloader::Connect()
 void OpenFocus::Bootloader::Disconnect()
 {
     if (device)
-        usb_close((usb_dev_handle *)device);
+        usb_close(device);
     device = NULL;
 }
 
@@ -38,7 +38,7 @@ bool OpenFocus::Bootloader::IsConnected()
 
 int OpenFocus::Bootloader::Reboot()
 {
-    return usb_control_msg((usb_dev_handle *)device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT, 0, 0, NULL, 0, 5000);
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT, 0, 0, NULL, 0, 5000);
 }
 
 int OpenFocus::Bootloader::GetReport()
@@ -54,7 +54,7 @@ int OpenFocus::Bootloader::GetReport()
     } report;
 #pragma pack()
 
-    int retval = usb_control_msg((usb_dev_handle *)device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_REPORT, 0, 0, report.bytes, sizeof(report), 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_REPORT, 0, 0, report.bytes, sizeof(report), 5000);
 
     PageSize = report.pagesize;
     FlashSize = report.flashsize;
@@ -67,7 +67,7 @@ block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, int length
 {
     block *data = (block *)malloc(sizeof(char) * length);
 
-    int retval = usb_control_msg((usb_dev_handle *)device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, data->bytes, length, 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, data->bytes, length, 5000);
 
     if (retval < 0)
         return NULL;
@@ -101,7 +101,7 @@ int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const char *
     b->address = address;
     memcpy(b->data, data, length);
 
-    int retval = usb_control_msg((usb_dev_handle *)device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, b->bytes, length + sizeof(address), 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, b->bytes, length + sizeof(address), 5000);
 
     free(b);
 
@@ -127,7 +127,7 @@ int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const char *d
     b->address = address;
     memcpy(b->data, data, length);
 
-    int retval = usb_control_msg((usb_dev_handle *)device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, b->bytes, length + sizeof(address), 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, b->bytes, length + sizeof(address), 5000);
 
     free(b);
 
