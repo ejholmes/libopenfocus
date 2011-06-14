@@ -40,6 +40,8 @@ int main()
 
 **Windows**: Compile with ``g++ -I"path to openfocus.h" main.cpp libopenfocus.dll``. _Requires libopenfocus.dll to be in the same directory as the application_
 
+---------------------------------------------------------------------------------------
+
 **C**
 
 ```
