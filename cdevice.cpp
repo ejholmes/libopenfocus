@@ -31,6 +31,7 @@ extern "C" {
     int device_set_position(Device *device, unsigned short position) { return device->SetPosition(position); }
     int device_get_temperature(Device *device, double *temperature) { return device->GetTemperature(temperature); }
     int device_get_position(Device *device, unsigned short *position) { return device->GetPosition(position); }
+    int device_reverse_direction(Device *device, int reverse) { return device->ReverseDirection(reverse); }
     int device_is_moving(Device *device) { return device->IsMoving(); }
     int device_is_connected(Device *device) { return device->IsConnected(); }
     char *device_get_serial(Device *device) { return device->Serial; }

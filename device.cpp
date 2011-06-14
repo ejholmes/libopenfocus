@@ -10,7 +10,7 @@
 #define USB_RQ_MOVE_TO 0x00
 #define USB_RQ_HALT 0x01
 #define USB_RQ_SET_POSITION 0x02
-#define USB_RQ_SET_TEMPERATURE_COMPENSATION 0x03
+#define USB_RQ_REVERSE 0x03
 #define USB_RQ_REBOOT_TO_BOOTLOADER 0x04
 #define USB_RQ_GET_POSITION 0x10
 #define USB_RQ_IS_MOVING 0x11
@@ -93,6 +93,11 @@ bool OpenFocus::Device::IsMoving()
     char ismoving;
     usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_IS_MOVING, 0, 0, &ismoving, sizeof(bool), 5000);
     return (bool)ismoving;
+}
+
+int OpenFocus::Device::ReverseDirection(bool reverse)
+{
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REVERSE, (int)((reverse)?1:0), 0, NULL, 0, 5000);
 }
 
 int OpenFocus::Device::GetTemperature(double *temperature)

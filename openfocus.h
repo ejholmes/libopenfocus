@@ -92,6 +92,8 @@ namespace OpenFocus
         int GetTemperature(double *temperature);
         /* Gets the current position from device */
         int GetPosition(unsigned short *position);
+        /* Reverses the direction that the focuser rotates */
+        int ReverseDirection(bool reverse);
 
         /* Starts temperature compensation */
         void EnableTemperatureCompensation();
@@ -198,6 +200,7 @@ namespace OpenFocus
         int device_set_position(Device *device, unsigned short position);
         int device_get_temperature(Device *device, double *temperature);
         int device_get_position(Device *device, unsigned short *position);
+        int device_reverse_direction(Device *device, int reverse);
         int device_is_moving(Device *device);
         int device_is_connected(Device *device);
         char *device_get_serial(Device *device);
