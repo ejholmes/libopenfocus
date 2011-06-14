@@ -1,4 +1,4 @@
-This is a C++ (with some C comatability) library for communicating with the OpenFocus device and
+This is a C++ library (with some C comatability) for communicating with the OpenFocus device and
 bootloader. For more information about OpenFocus, see https://github.com/CortexAstronomy/OpenFocus.
 
 Includes a QT project and a makefile for compiling from command line.
