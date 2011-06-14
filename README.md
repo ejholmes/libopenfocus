@@ -1,3 +1,5 @@
+LibOpenFocus
+============
 This is a C++ library (with some C comatability) for communicating with the OpenFocus device and
 bootloader. For more information about OpenFocus, see https://github.com/CortexAstronomy/OpenFocus.
 
@@ -5,7 +7,9 @@ Includes a QT project and a makefile for compiling from command line.
 
 Compiling From Source
 ---------------------
-Run `make`. This will build a libopenfocus.a that you can link against in your program.
+Run `make`. This will build libopenfocus.a, which you can statically link against in your program. If you're on linux or windows, it will also create a dynamic library called libopenfocus.so or libopenfocus.dll, respectively, that you can dynamically link against.
+
+If you're on linux, run `make install` to copy libopenfocus.so to /usr/lib.
 
 Usage
 -----
