@@ -17,7 +17,7 @@ extern "C" {
         Device *dev = new Device();
 
         if (!dev->Connect(serial))
-            return -1;
+            return 0;
 
         *device = dev;
 

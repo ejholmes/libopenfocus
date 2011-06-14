@@ -3,16 +3,11 @@
 
 UNAME = $(shell uname)
 
-ifeq ($(UNAME), Linux)
-	# Use the following 3 lines on Unix (uncomment the framework on Mac OS X):
-	USBFLAGS = `libusb-config --cflags`
-	USBLIBS = `libusb-config --libs`
-else
-	# Use the following 3 lines on Windows and comment out the 3 above. You may
-	# have to change the include paths to where you installed libusb-win32
-	USBFLAGS = -I/usr/local/include
-	USBLIBS = -L/usr/local/lib -lusb
-endif
+USBFLAGS = `libusb-config --cflags`
+USBLIBS = `libusb-config --libs`
+
+# USBFLAGS = -I/usr/local/include
+# USBLIBS = -L/usr/local/lib -lusb
 
 NAME = openfocus
 
