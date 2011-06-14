@@ -39,16 +39,12 @@ typedef struct eeprom {
     char *data;
 } eeprom;
 
-/* Type used for storing capabilities */
-typedef struct capabilities {
-    unsigned char absolutepositioning : 1;
-    unsigned char temperaturecompensation : 2;
-    unsigned char unused : 6;
-} capabilities;
-
 #ifdef __cplusplus
 namespace OpenFocus
 {
+    /*
+     * This is the main class for interfacing with an OpenFocus device
+     */
     class EXPORT Device
     {
     private:
