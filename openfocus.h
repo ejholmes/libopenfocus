@@ -59,6 +59,8 @@ namespace OpenFocus
 
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
         int GetCapabilities(unsigned char *capabilities);
+
+        void *device;
     public:
         Device();
         /* Connect to the device */
@@ -106,6 +108,8 @@ namespace OpenFocus
         static const unsigned short Vendor_ID; /* 0x20a0 */
         /* Bootloader Product ID */
         static const unsigned short Product_ID; /* 0x416d */
+
+        static void *device;
     public:
         Bootloader();
         /* Connect to the bootloader */
