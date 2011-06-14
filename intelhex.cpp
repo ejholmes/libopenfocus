@@ -5,12 +5,12 @@
 
 #include "intelhex.h"
 
-char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
+/*char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
 {
     record current;
 
     return NULL;
-}
+}*/
 
 record *IntelHexFile::Open(const char *data, int length)
 {

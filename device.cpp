@@ -25,6 +25,7 @@ const unsigned short OpenFocus::Device::Product_ID = DEVICE_PID;
 
 OpenFocus::Device::Device()
 {
+    device = NULL;
     TemperatureCoefficient = 0.0;
     TempCompEnabled = false;
     LastTemperature = 0.0;
@@ -121,7 +122,7 @@ int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
 
 void OpenFocus::Device::DoTempComp()
 {
-    if (TempCompEnabled && !IsMoving()) {
+    if (TempCompEnabled && !IsMoving() && (LastTemperature != 0.0)) {
         double CurrentTemperature;
         GetTemperature(&CurrentTemperature);
 
