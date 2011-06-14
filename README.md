@@ -9,6 +9,7 @@ Run `make`. This will build a libopenfocus.a that you can link against in your p
 
 Usage
 -----
+The follow shows a simple example of how to use the library in a C/C++ application.
 **C++**
 
 ```
@@ -20,9 +21,13 @@ int main()
 {
     OpenFocus::Device *device = new OpenFocus::Device();
     
-    if (device->Connect()) {
+    if (device->Connect()) {                             /* Connect to the focuser */
         printf("Connected to OpenFocus device\n");
-        device->MoveTo(100);
+        device->MoveTo(100);                             /* Move to position 100 */
+        double temperature;
+        device->GetTemperature(&temperature);            /* Get the current temperature read by the on-board temperature sensor */
+        printf("Current ambient temperature read by device: %f", temperature);
+        device->Disconnect();                            /* Disconnect from the focuser */
     }
     else {
         printf("Could not find OpenFocus device\n");
@@ -30,7 +35,9 @@ int main()
 }
 ```
 
-Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``.
+**Linux/Mac**: Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``. 
+
+**Windows**: Compile with ``g++ -I"path to openfocus.h" main.cpp libopenfocus.dll``. _Requires libopenfocus.dll to be in the same directory as the application_
 
 **C**
 
@@ -43,9 +50,13 @@ int main()
 {
     Device *handle;
     
-    if (device_connect(&handle)) {
+    if (device_connect(&handle)) {                        /* Connect to the focuser */
         printf("Connected to OpenFocus device\n");
-        device_move_to(handle, 100);
+        device_move_to(handle, 100);                      /* Move to position 100 */
+        double temperature;
+        device_get_temperature(handle, &temperature);     /* Get the current temperature read by the on-board temperature sensor */
+        printf("Current ambient temperature read by device: %f", temperature);
+        device_disconnect(handle);                        /* Disconnect from the focuser */
     }
     else {
         printf("Could not find OpenFocus device\n");
@@ -53,4 +64,6 @@ int main()
 }
 ```
 
-Compile with ``gcc -I"path to openfocus.h" main.c `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus -lstdc++``.
+**Linux/Mac**: Compile with ``gcc -I"path to openfocus.h" main.c `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus -lstdc++``. 
+
+**Windows**: Compile with ``gc -I"path to openfocus.h" main.c libopenfocus.dll -lstdc++``. _Requires libopenfocus.dll to be in the same directory as the application_
