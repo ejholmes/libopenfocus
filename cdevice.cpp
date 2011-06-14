@@ -37,4 +37,10 @@ extern "C" {
     version device_get_firmware_version(Device *device) { return device->FirmwareVersion; }
     int device_can_absolute_position(Device *device) { return device->AbsolutePositioning; }
     int device_can_temperature_compensate(Device *device) { return device->TemperatureCompensation; }
+    void device_set_temperature_coefficient(Device *device, double coefficient) { device->TemperatureCoefficient = coefficient; }
+    double device_get_temperature_coefficient(Device *device) { return device->TemperatureCoefficient; }
+    void device_enable_temperature_compensation(Device *device) { device->EnableTemperatureCompensation(); }
+    void device_disable_temperature_compensation(Device *device) { device->DisableTemperatureCompensation(); }
+    bool device_temperature_compensation_enabled(Device *device) { return device->TemperatureCompensationEnabled(); }
+    void device_do_temp_comp(Device *device) { device->DoTempComp(); }
 }

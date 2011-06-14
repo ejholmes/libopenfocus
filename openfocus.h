@@ -204,6 +204,12 @@ namespace OpenFocus
         version device_get_firmware_version(Device *device);
         int device_can_absolute_position(Device *device);
         int device_can_temperature_compensate(Device *device);
+        void device_set_temperature_coefficient(Device *device, double coefficient);
+        double device_get_temperature_coefficient(Device *device);
+        void device_enable_temperature_compensation(Device *device);
+        void device_disable_temperature_compensation(Device *device);
+        bool device_temperature_compensation_enabled(Device *device);
+        void device_do_temp_comp(Device *device);
 #ifdef __cplusplus
     }
 }
