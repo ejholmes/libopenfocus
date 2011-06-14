@@ -28,10 +28,8 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
                         if (dev->descriptor.iSerialNumber > 0) {
                             len = usb_get_string_simple(handle, dev->descriptor.iSerialNumber, devserial, sizeof(devserial));
                         }
-                        if (len > 0) {
-                            if (strcmp(devserial, serial) == 0) {
-                                goto havedevice;
-                            }
+                        if ((len > 0) && (strcmp(devserial, serial) == 0)) {
+                            goto havedevice;
                         }
                     }
                 }
@@ -52,7 +50,7 @@ static inline void endian_swap(void *dest, const void *source, int length)
 {
     int i;
     for (i = 0; i < length; i++) {
-        dest[i] = (sourcelength - i]);
+        dest[i] = (source[length - i]);
     }
 }
 
