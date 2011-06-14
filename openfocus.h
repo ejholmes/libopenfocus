@@ -168,8 +168,8 @@ namespace OpenFocus
 #ifdef __cplusplus
     extern "C" {
 #endif
-        Device *device_connect();
-        Device *device_connect_serial(const char *serial);
+        int device_connect(Device **device);
+        int device_connect_serial(Device **device, const char *serial);
         void device_disconnect(Device *device);
         int device_move_to(Device *device, unsigned short position);
         int device_halt(Device *device);

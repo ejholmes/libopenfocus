@@ -43,7 +43,7 @@ int main()
 {
     Device *handle;
     
-    if ((handle = device_connect()) != NULL) {
+    if (device_connect(&handle)) {
         printf("Connected to OpenFocus device\n");
         device_move_to(handle, 100);
     }
