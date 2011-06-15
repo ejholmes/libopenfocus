@@ -3,11 +3,18 @@
 
 UNAME = $(shell uname)
 
-USBFLAGS = `libusb-config --cflags`
-USBLIBS = `libusb-config --libs`
-
-# USBFLAGS = -I/usr/local/include
-# USBLIBS = -L/usr/local/lib -lusb
+ifeq ($(UNAME), Linux)
+	USBFLAGS = `libusb-config --cflags`
+	USBLIBS = `libusb-config --libs`
+endif
+ifeq ($(UNAME), Darwin)
+	USBFLAGS = `libusb-config --cflags`
+	USBLIBS = `libusb-config --libs`
+endif
+ifeq ($(UNAME), MINGW32_NT-6.1)
+	USBFLAGS = -I/usr/local/include
+	USBLIBS = -L/usr/local/lib -lusb
+endif
 
 NAME = openfocus
 
@@ -15,7 +22,7 @@ OBJECTS = device.o bootloader.o helper.o intelhex.o cdevice.o
 
 CC		= gcc
 CPP     = g++
-CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -Wall -fpic
+CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -fpic -Wall
 LIBS	= $(USBLIBS)
 OUTPUT  = lib$(NAME).a
 
