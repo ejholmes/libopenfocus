@@ -20,13 +20,25 @@ LIBS	= $(USBLIBS)
 OUTPUT  = lib$(NAME).a
 
 ifeq ($(UNAME), Linux)
-	LDFLAGS = -Wl,-soname,lib$(NAME).so -o lib$(NAME).so
-else
+	LDFLAGS = -Wl,-soname,lib$(NAME).so.0.0.0 -o lib$(NAME).so.0.0.0
+endif
+ifeq ($(UNAME), MINGW32_NT-6.1)
 	LDFLAGS = -Wl,--out-implib,lib$(NAME).lib -o lib$(NAME).dll
+endif
+ifeq ($(UNAME), Darwin)
+	LDFLAGS =
 endif
 
 
 all: $(OUTPUT)
+
+ifeq ($(UNAME), Linux)
+install: all
+	install -m 0644 lib$(NAME).a /usr/lib
+	install -m 0755 lib$(NAME).so.0.0.0 /usr/lib
+	ln -s /usr/lib/lib$(NAME).so.0.0.0 /usr/lib/lib$(NAME).so
+	install -m 0755 openfocus.h /usr/include
+endif
 
 .cpp.o:
 	$(CPP) $(CFLAGS) -c $< 
