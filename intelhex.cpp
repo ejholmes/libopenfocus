@@ -5,6 +5,12 @@
 
 #include "intelhex.h"
 
+#ifdef DEBUG
+#define DEBUG_LOG(...) printf(__VA_ARGS__)
+#else
+#define DEBUG_LOG(...)
+#endif
+
 /*char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
 {
     record current;
@@ -41,6 +47,44 @@ record *IntelHexFile::Open(FILE *fp)
     return head;
 }
 
+flash *IntelHexFile::RecordsToFlashData(record *records)
+{
+    flash *fl = (flash *)malloc(sizeof(flash));
+    record *current;
+
+    fl->size = 0;
+    fl->data = NULL;
+
+    for (current = records; current != NULL; current = current->next) {
+        fl->size = current->address + current->byte_count;
+        fl->data = (unsigned char *)realloc(fl->data, fl->size);
+        memcpy(&fl->data[current->address], current->data, current->byte_count);
+    }
+
+    return fl;
+}
+
+void IntelHexFile::FreeRecords(record *records)
+{
+    record *current, *next;
+
+    for (current = records; current != NULL; current = current->next) {
+        next = current;
+        if (current->data != NULL)
+            free(current->data);
+        free(current);
+        current = next;
+    }
+}
+
+void IntelHexFile::FreeFlashData(flash *flashdata)
+{
+    if (flashdata->data != NULL)
+        free(flashdata->data);
+    free(flashdata);
+    flashdata = NULL;
+}
+
 char *IntelHexFile::RecordToString(record *rec)
 {
     return NULL;
@@ -49,9 +93,10 @@ char *IntelHexFile::RecordToString(record *rec)
 record *IntelHexFile::ParseLine(FILE *fp)
 {
     record *rec = (record *)malloc(sizeof(record));
+    rec->data = NULL;
     char  start;
 
-    while ((start = fgetc(fp)) != ':') { } /* move forward until we find the start of the record */
+    while ((start = fgetc(fp)) != ':') { if (start == EOF) return NULL; } /* move forward until we find the start of the record */
 
     /* Read start */
     rec->start = start;
@@ -69,6 +114,7 @@ record *IntelHexFile::ParseLine(FILE *fp)
         return NULL;
 
     /* Read data */
+    rec->data = (unsigned char *)malloc(rec->byte_count * sizeof(char));
     unsigned int i;
     for (i = 0; i < rec->byte_count; i++) {
         rec->data[i] = (unsigned char)ReadBytes(fp, 2);

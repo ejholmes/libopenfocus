@@ -9,6 +9,7 @@ QT       -= gui
 TARGET = openfocus
 TEMPLATE = lib
 CONFIG += staticlib
+DEFINES += DEBUG
 
 SOURCES += \
     helper.cpp \

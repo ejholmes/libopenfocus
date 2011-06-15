@@ -25,6 +25,11 @@ typedef struct record {
     struct record *next;        /* Next record in the list */
 } record;
 
+typedef struct flash {
+    size_t size;
+    unsigned char *data;
+} flash;
+
 class IntelHexFile
 {
 private:
@@ -48,9 +53,16 @@ public:
     /* Creates an intel hex file from data */
     static char *Create(const char *data, size_t length, int byte_count);
 
-    /* Opens a file in intel hex format and returns a pointer to a linked list records */
+    /* Opens a file in intel hex format and returns a pointer to a linked list of records */
     static record *Open(FILE *fp);
     static record *Open(const char *data, int length);
+
+    /* Converts a linked list of records to an array of data */
+    static flash *RecordsToFlashData(record *records);
+
+    /* Functions for freeing lists */
+    static void FreeRecords(record *records);
+    static void FreeFlashData(flash *flashdata);
 };
 
 

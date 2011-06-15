@@ -29,9 +29,9 @@ typedef struct version {
 typedef union block {
     struct {
         unsigned short address;
-        char data[1];
+        char data;
     };
-    char bytes[1];
+    char bytes;
 } block;
 #pragma pack()
 
@@ -144,13 +144,13 @@ namespace OpenFocus
         /* Disconnects the bootloader */
         void Disconnect();
         /* Write block of data to address */
-        int WriteEepromBlock(unsigned short address, const char *data, int length);
+        int WriteEepromBlock(unsigned short address, const unsigned char *data, int length);
         /* Write data to eeprom */
-        int WriteEeprom(const char *data, int length);
+        int WriteEeprom(const unsigned char *data, int length);
         /* Write block of data to address in flash */
-        int WriteFlashBlock(unsigned short address, const char *data, int length);
+        int WriteFlashBlock(unsigned short address, const unsigned char *data, int length);
         /* Write data to flash */
-        int WriteFlash(const char *data, int length);
+        int WriteFlash(const unsigned char *data, int length);
         /* Exits bootloader by jumping to (void *)0 */
         int Reboot();
 

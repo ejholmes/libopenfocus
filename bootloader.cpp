@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,6 +11,12 @@
 #define USB_RQ_GET_REPORT 0x03
 #define USB_RQ_WRITE_EEPROM_BLOCK 0x04
 #define USB_RQ_READ_EEPROM_BLOCK 0x05
+
+#ifdef DEBUG
+#define DEBUG_LOG(...) printf(__VA_ARGS__)
+#else
+#define DEBUG_LOG(...)
+#endif
 
 const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
 const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
@@ -79,7 +86,7 @@ block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, int length
 {
     block *data = (block *)malloc(sizeof(char) * length);
 
-    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, data->bytes, length, 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, &data->bytes, length, 5000);
 
     if (retval < 0)
         return NULL;
@@ -100,58 +107,60 @@ eeprom *OpenFocus::Bootloader::ReadEeprom()
         block *b = ReadEepromBlock(address, blocksize + sizeof(address)); /* Read a block of eeprom */
         if (b == NULL)
             return NULL;
-        memcpy(&ep->data[b->address], b->data, blocksize); /* Copy the data to the eeprom buffer */
+        memcpy(&ep->data[b->address], &b->data, blocksize); /* Copy the data to the eeprom buffer */
         free(b);
     }
 
     return ep;
 }
 
-int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const char *data, int length)
+int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const unsigned char *data, int length)
 {
     block *b = (block *)malloc(length + sizeof(address));
     b->address = address;
-    memcpy(b->data, data, length);
+    memcpy(&b->data, data, length);
 
-    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, b->bytes, length + sizeof(address), 5000);
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
 
     free(b);
 
     return retval;
 }
 
-int OpenFocus::Bootloader::WriteEeprom(const char *data, int length)
+int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, int length)
 {
     unsigned short blocksize = 2;
     for (unsigned short address = 0; address < length; address += blocksize) {
         if ((address + blocksize) > length)
             blocksize = length - address;
         if (WriteEepromBlock(address, data, blocksize) != 0)
-            return -1;
+            return 0;
         data += blocksize;
     }
-    return 0;
+    return 1;
 }
 
-int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const char *data, int length)
+int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, int length)
 {
     block *b = (block *)malloc(length + sizeof(address));
     b->address = address;
-    memcpy(b->data, data, length);
+    memcpy(&b->data, data, length);
 
-    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, b->bytes, length + sizeof(address), 5000);
+    DEBUG_LOG("Writing flash block at address %4x\n", address);
+
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
 
     free(b);
 
     return retval;
 }
 
-int OpenFocus::Bootloader::WriteFlash(const char *data, int length)
+int OpenFocus::Bootloader::WriteFlash(const unsigned char *data, int length)
 {
     for (unsigned short address = 0; address < length; address += PageSize) {
-        if (WriteFlashBlock(address, data, PageSize) != 0)
-            return -1;
+        if (WriteFlashBlock(address, data, PageSize) <= 0)
+            return 0;
         data += PageSize;
     }
-    return 0;
+    return 1;
 }
