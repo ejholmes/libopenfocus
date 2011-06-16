@@ -137,6 +137,9 @@ namespace OpenFocus
         static const unsigned short Product_ID; /* 0x416d */
 
         static dev_handle *device;
+
+        /* Returns report from device, returns 8 bytes */
+        int GetReport();
     public:
         Bootloader();
         /* Connect to the bootloader */
@@ -162,8 +165,6 @@ namespace OpenFocus
         /* Returns true if connected to bootloader */
         bool IsConnected();
 
-        /* Returns report from device, returns 8 bytes */
-        int GetReport();
 
         /* Page size of device */
         static unsigned short PageSize;

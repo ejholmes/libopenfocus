@@ -24,8 +24,8 @@ record *IntelHexFile::Open(const char *data, int length)
 
     assert(tmp != NULL);
 
-    fwrite(data, 1, length, tmp);
-    rewind(tmp);
+    if (fwrite(data, 1, length, tmp) > 0)
+        rewind(tmp);
 
     return Open(tmp);
 }
@@ -137,9 +137,10 @@ int IntelHexFile::ReadBytes(FILE *fp, int length)
     int field = 0;
 
     buffer = (char *)malloc(length + 1);
-    fread(buffer, length, sizeof(char), fp);
-    buffer[length] = '\0';
-    sscanf(buffer, "%x", &field); /* Conver the string from a hex number to int */
+    if (fread(buffer, length, sizeof(char), fp) > 0) {
+        buffer[length] = '\0';
+        sscanf(buffer, "%x", &field); /* Conver the string from a hex number to int */
+    }
 
     free(buffer);
 
