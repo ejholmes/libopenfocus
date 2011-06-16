@@ -9,7 +9,7 @@ Compiling From Source
 ---------------------
 Run `make`. This will build **libopenfocus.a**, which you can statically link against in your program. If you're on linux or windows, it will also create a dynamic library called **libopenfocus.so** or **libopenfocus.dll**, respectively, that you can dynamically link against.
 
-If you're on linux, run `make install` to copy **libopenfocus.so** to /usr/lib.
+If you're on linux, run `make install` to install the libraries and header files to /usr.
 
 Usage
 -----
