@@ -36,8 +36,8 @@ extern "C" {
     int device_is_connected(Device *device) { return device->IsConnected(); }
     char *device_get_serial(Device *device) { return device->Serial; }
     version device_get_firmware_version(Device *device) { return device->FirmwareVersion; }
-    int device_can_absolute_position(Device *device) { return device->AbsolutePositioning; }
-    int device_can_temperature_compensate(Device *device) { return device->TemperatureCompensation; }
+    int device_can_absolute_position(Device *device) { return device->CanAbsolutePosition; }
+    int device_can_temperature_compensate(Device *device) { return device->CanTemperatureCompensate; }
     void device_set_temperature_coefficient(Device *device, double coefficient) { device->TemperatureCoefficient = coefficient; }
     double device_get_temperature_coefficient(Device *device) { return device->TemperatureCoefficient; }
     void device_enable_temperature_compensation(Device *device) { device->EnableTemperatureCompensation(); }

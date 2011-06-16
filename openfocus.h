@@ -119,9 +119,9 @@ namespace OpenFocus
         version FirmwareVersion;
 
         /* True if the device supports absolute positioning */
-        bool AbsolutePositioning;
+        bool CanAbsolutePosition;
         /* True if the device supports temperature compensation */
-        bool TemperatureCompensation;
+        bool CanTemperatureCompensate;
 
         /* Current temperature coefficient to use during temperature compensation */
         double TemperatureCoefficient;

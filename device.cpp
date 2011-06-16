@@ -39,8 +39,8 @@ bool OpenFocus::Device::Connect(const char *serial)
     /* Get the capabilities from the device */
     unsigned char caps = 0;
     GetCapabilities(&caps);
-    AbsolutePositioning = ((caps & CAP_ABSOLUTE_POSITIONING) == CAP_ABSOLUTE_POSITIONING);
-    TemperatureCompensation = ((caps & CAP_TEMPERATURE_COMPENSATION) == CAP_TEMPERATURE_COMPENSATION);
+    CanAbsolutePosition = ((caps & CAP_ABSOLUTE_POSITIONING) == CAP_ABSOLUTE_POSITIONING);
+    CanTemperatureCompensate = ((caps & CAP_TEMPERATURE_COMPENSATION) == CAP_TEMPERATURE_COMPENSATION);
 
     struct usb_device *dev = usb_device(device);
 
