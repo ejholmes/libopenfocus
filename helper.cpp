@@ -3,8 +3,12 @@
 
 #include "openfocus.h"
 
-
 int OpenFocus::Helper::ConnectBootloader()
+{
+    return OpenFocus::Helper::ConnectBootloader(true);
+}
+
+int OpenFocus::Helper::ConnectBootloader(bool timer)
 {
     OpenFocus::Bootloader *bootloader = new OpenFocus::Bootloader();
 
@@ -17,8 +21,10 @@ int OpenFocus::Helper::ConnectBootloader()
             device->RebootToBootloader();
             device->Disconnect();
             /* Wait 2000 ms */
-            for (time_t t = time(NULL) + 2; time(NULL) < t;) {}
-            return OpenFocus::Helper::ConnectBootloader();
+            if (timer) {
+                for (time_t t = time(NULL) + 2; time(NULL) < t;) {}
+                return OpenFocus::Helper::ConnectBootloader();
+            }
         }
         else {
             return 0; /* Device not found */

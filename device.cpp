@@ -2,9 +2,9 @@
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
+#include <usb.h>
 
 #include "openfocus.h"
-#include "usb.h"
 #include "util.h"
 
 #define USB_RQ_MOVE_TO 0x00

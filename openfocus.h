@@ -180,6 +180,7 @@ namespace OpenFocus
           it will try to connect to the device and reboot it. If that also fails, it will
           return 0 */
         static int ConnectBootloader();
+        static int ConnectBootloader(bool timer); /* Set timer to false to process win32 events */
         /* Converts kelvin to celsius */
         static double Celsius(double kelvin);
         /* Converts kelvin to fahrenheit */
