@@ -28,17 +28,17 @@ typedef struct version {
 #pragma pack(1)
 typedef union block {
     struct {
-        unsigned short address;
-        char data;
+        unsigned short address;  /* Address where data starts */
+        char data;               /* Data to put at address */
     };
-    char bytes;
+    char bytes;                  /* This structure as bytes */
 } block;
 #pragma pack()
 
 /* Used to return eeprom data */
 typedef struct eeprom {
-    unsigned short size;
-    char *data;
+    unsigned short size;         /* Number of bytes in data */
+    char *data;                  /* EEPROM data */
 } eeprom;
 
 typedef struct usb_dev_handle dev_handle;
@@ -145,11 +145,11 @@ namespace OpenFocus
         void Disconnect();
         /* Write block of data to address */
         int WriteEepromBlock(unsigned short address, const unsigned char *data, int length);
-        /* Write data to eeprom */
+        /* Write data to eeprom. Length should not exceed EEPROMSize */
         int WriteEeprom(const unsigned char *data, int length);
         /* Write block of data to address in flash */
         int WriteFlashBlock(unsigned short address, const unsigned char *data, int length);
-        /* Write data to flash */
+        /* Write data to flash. Length should not exceed FlashSize - 4096 */
         int WriteFlash(const unsigned char *data, int length);
         /* Exits bootloader by jumping to (void *)0 */
         int Reboot();
