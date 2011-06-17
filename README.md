@@ -15,7 +15,7 @@ $ make install # Only on linux
 
 Usage
 -----
-The follow shows a simple example of how to use the library in a C/C++ application.  
+The following shows a simple example of how to use the library in a C/C++ application.  
 
 **C++**
 
