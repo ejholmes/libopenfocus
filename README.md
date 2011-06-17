@@ -7,9 +7,11 @@ Includes a QT project and a makefile for compiling from command line.
 
 Compiling From Source
 ---------------------
-Run `make`. This will build **libopenfocus.a**, which you can statically link against in your program. If you're on linux or windows, it will also create a dynamic library called **libopenfocus.so** or **libopenfocus.dll**, respectively, that you can dynamically link against.
 
-If you're on linux, run `make install` to install the libraries and header files to /usr.
+```
+$ make
+$ make install # Only on linux
+```
 
 Usage
 -----
@@ -40,9 +42,19 @@ int main()
 }
 ```
 
-Linux/Mac: Compile with ``g++ -I"path to openfocus.h" main.cpp `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus``. 
+Compile on Linux
 
-Windows: Compile with ``g++ -I"path to openfocus.h" main.cpp libopenfocus.dll``. _Requires libopenfocus.dll to be in the same directory as the application_
+```
+$ g++ main.cpp -lusb -lopenfocus
+```
+
+Compile on Windows
+
+```
+$ g++ -I"path to openfocus.h" main.cpp libopenfocus.dll
+```
+
+_Requires libopenfocus.dll to be in the same directory as the application_
 
 ---------------------------------------------------------------------------------------
 
@@ -71,6 +83,14 @@ int main()
 }
 ```
 
-Linux/Mac: Compile with ``gcc -I"path to openfocus.h" main.c `libusb-config --libs` -L"path to libopenfocus.a" -lopenfocus -lstdc++``. 
+Compile on Linux
 
-Windows: Compile with ``gc -I"path to openfocus.h" main.c libopenfocus.dll -lstdc++``. _Requires libopenfocus.dll to be in the same directory as the application_
+```
+$ gcc main.cpp -lusb -lopenfocus -lstdc++
+```
+
+Compile on Windows
+
+```
+$ gcc -I"path to openfocus.h" main.cpp libopenfocus.dll -lstdc++
+```
