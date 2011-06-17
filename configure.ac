@@ -1,9 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.65])
 AC_INIT([LibOpenFocus], [0.1], [eric@ejholmes.net])
-# AC_CONFIG_SRCDIR([util.h])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 LT_INIT
