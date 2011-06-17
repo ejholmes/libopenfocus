@@ -29,6 +29,7 @@ OpenFocus::Device::Device()
     TemperatureCoefficient = 0.0;
     TempCompEnabled = false;
     LastTemperature = 0.0;
+    have_error = false;
 }
 
 bool OpenFocus::Device::Connect(const char *serial)
@@ -100,24 +101,30 @@ int OpenFocus::Device::ReverseDirection(bool reverse)
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REVERSE, (int)((reverse)?1:0), 0, NULL, 0, 5000);
 }
 
-int OpenFocus::Device::GetTemperature(double *temperature)
+double OpenFocus::Device::GetTemperature()
 {
-    int retval;
     unsigned short adc;
-    retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_TEMPERATURE, 0, 0, (char *)&adc, sizeof(unsigned short), 5000);
+    double temperature;
 
-    if (retval < 0)
-        return retval;
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_TEMPERATURE, 0, 0, (char *)&adc, sizeof(temperature), 5000);
 
-    *temperature = (5.00 * (double)adc * 100.00) / 1024.00; /* Convert ADC value to absolute temperature */
-    *temperature = round(*temperature * 100.00) / 100.00; /* Round to two decimal places */
+    if (retval != sizeof(temperature))
+        have_error = true;
 
-    return retval;
+    temperature = (5.00 * (double)adc * 100.00) / 1024.00; /* Convert ADC value to absolute temperature */
+    temperature = round(temperature * 100.00) / 100.00; /* Round to two decimal places */
+
+    return temperature;
 }
 
-int OpenFocus::Device::GetPosition(unsigned short *position)
+unsigned short OpenFocus::Device::GetPosition()
 {
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_POSITION, 0, 0, (char *)position, sizeof(unsigned short), 5000);
+    unsigned short position;
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_POSITION, 0, 0, (char *)&position, sizeof(position), 5000);
+    if (retval != sizeof(position))
+        have_error = true;
+
+    return position;
 }
 
 int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
@@ -128,11 +135,9 @@ int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
 void OpenFocus::Device::DoTempComp()
 {
     if (TempCompEnabled && !IsMoving() && (LastTemperature != 0.0)) {
-        double CurrentTemperature;
-        GetTemperature(&CurrentTemperature);
+        double CurrentTemperature = GetTemperature();
 
-        unsigned short position;
-        GetPosition(&position);
+        unsigned short position = GetPosition();
 
         double delta = CurrentTemperature - LastTemperature;
         MoveTo((unsigned short)(position + (TemperatureCoefficient * delta)));
@@ -144,7 +149,7 @@ void OpenFocus::Device::DoTempComp()
 void OpenFocus::Device::EnableTemperatureCompensation()
 {
     TempCompEnabled = true;
-    GetTemperature(&LastTemperature);
+    LastTemperature = GetTemperature();
 }
 
 void OpenFocus::Device::DisableTemperatureCompensation()
@@ -155,4 +160,11 @@ void OpenFocus::Device::DisableTemperatureCompensation()
 bool OpenFocus::Device::TemperatureCompensationEnabled()
 {
     return TempCompEnabled;
+}
+
+bool OpenFocus::Device::HaveError()
+{
+    bool retval = have_error;
+    have_error = false;
+    return retval;
 }

@@ -58,4 +58,4 @@ $(OUTPUT): $(OBJECTS)
 	$(CPP) -shared $(LDFLAGS) $(OBJECTS) $(USBLIBS)
 
 clean:
-	rm -f *.o $(OUTPUT) *.exe *.a *.dll *.lib *.so
+	rm -f *.o $(OUTPUT) *.exe *.a *.dll *.lib *.so *.so*

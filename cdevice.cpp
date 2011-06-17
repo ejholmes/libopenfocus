@@ -29,8 +29,8 @@ extern "C" {
     int device_halt(Device *device) { return device->Halt(); }
     void device_reboot_to_bootloader(Device *device) { device->RebootToBootloader(); }
     int device_set_position(Device *device, unsigned short position) { return device->SetPosition(position); }
-    int device_get_temperature(Device *device, double *temperature) { return device->GetTemperature(temperature); }
-    int device_get_position(Device *device, unsigned short *position) { return device->GetPosition(position); }
+    double device_get_temperature(Device *device) { return device->GetTemperature(); }
+    unsigned short device_get_position(Device *device) { return device->GetPosition(); }
     int device_reverse_direction(Device *device, int reverse) { return device->ReverseDirection(reverse); }
     int device_is_moving(Device *device) { return device->IsMoving(); }
     int device_is_connected(Device *device) { return device->IsConnected(); }

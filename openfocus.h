@@ -71,6 +71,8 @@ namespace OpenFocus
 
         bool TempCompEnabled;
         double LastTemperature;
+
+        bool have_error;
     public:
         Device();
         /* Connect to the device */
@@ -89,9 +91,9 @@ namespace OpenFocus
         /* Set the current position on the device */
         int SetPosition(unsigned short position);
         /* Gets the current temperature read by the LM335 on the device in degrees kelvin */
-        int GetTemperature(double *temperature);
+        double GetTemperature();
         /* Gets the current position from device */
-        int GetPosition(unsigned short *position);
+        unsigned short GetPosition();
         /* Reverses the direction that the focuser rotates */
         int ReverseDirection(bool reverse);
 
@@ -125,6 +127,12 @@ namespace OpenFocus
 
         /* Current temperature coefficient to use during temperature compensation */
         double TemperatureCoefficient;
+
+        /* Call this to check the return value of the last Get* function.
+         *
+         * ex. GetTemperature(); if (!HaveError()) { printf("Success!"); }
+         * */
+        bool HaveError();
     };
 
     /* Functions for communicating with the bootloader. DON'T USE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING */
@@ -193,14 +201,6 @@ namespace OpenFocus
 #ifdef __cplusplus
     extern "C" {
 #endif
-        int device_connect(Device **device);
-        int device_connect_serial(Device **device, const char *serial);
-        void device_disconnect(Device *device);
-        int device_move_to(Device *device, unsigned short position);
-        int device_halt(Device *device);
-        void device_reboot_to_bootloader(Device *device);
-        int device_set_position(Device *device, unsigned short position);
-        int device_get_temperature(Device *device, double *temperature);
         int device_get_position(Device *device, unsigned short *position);
         int device_reverse_direction(Device *device, int reverse);
         int device_is_moving(Device *device);
