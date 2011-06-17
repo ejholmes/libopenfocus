@@ -30,8 +30,10 @@ int main()
     
     if (device->Connect()) {                             /* Connect to the focuser */
         printf("Connected to OpenFocus device\n");
-        device->MoveTo(100);                             /* Move to position 100 */
-        printf("Current ambient temperature read by device: %f", device->GetTemperature());
+        device->MoveTo(323);                             /* Move to position 323 */
+        while (device->IsMoving()) { }
+        printf("Moved to position %u\n", device->GetPosition());
+        printf("Current ambient temperature read by device: %f\n", device->GetTemperature());
         device->Disconnect();                            /* Disconnect from the focuser */
     }
     else {
@@ -44,9 +46,14 @@ Compile on Linux
 
 ```
 $ g++ main.cpp -lusb -lopenfocus
-$ ./a.out
+$ time ./a.out
 Connected to OpenFocus device
-Current ambient temperature read by device: 299.800000
+Moved to position 323
+Current ambient temperature read by the device: 299.800000
+
+real	0m5.299s
+user	0m0.017s
+sys	0m0.000s
 ```
 
 Compile on Windows
@@ -55,7 +62,8 @@ Compile on Windows
 > g++ -I"path to openfocus.h" main.cpp libopenfocus.dll
 > a.exe
 Connected to OpenFocus device
-Current ambient temperature read by device: 299.800000
+Moved to position 323
+Current ambient temperature read by the device: 299.800000
 ```
 
 _Requires libopenfocus.dll to be in the same directory as the application_
@@ -75,8 +83,10 @@ int main()
     
     if (device_connect(&handle)) {                        /* Connect to the focuser */
         printf("Connected to OpenFocus device\n");
-        device_move_to(handle, 100);                      /* Move to position 100 */
-        printf("Current ambient temperature read by device: %f", device_get_temperature(handle));
+        device_move_to(handle, 323);                      /* Move to position 323 */
+        while (device_is_moving(handle)) { }
+        printf("Moved to position %u\n", device_get_position(handle));
+        printf("Current ambient temperature read by device: %f\n", device_get_temperature(handle));
         device_disconnect(handle);                        /* Disconnect from the focuser */
     }
     else {
@@ -89,9 +99,14 @@ Compile on Linux
 
 ```
 $ gcc main.cpp -lusb -lopenfocus -lstdc++
-$ ./a.out
+$ time ./a.out
 Connected to OpenFocus device
-Current ambient temperature read by device: 299.800000
+Moved to position 323
+Current ambient temperature read by the device: 299.800000
+
+real	0m5.299s
+user	0m0.017s
+sys	0m0.000s
 ```
 
 Compile on Windows
@@ -100,5 +115,9 @@ Compile on Windows
 > gcc -I"path to openfocus.h" main.cpp libopenfocus.dll -lstdc++
 > a.exe
 Connected to OpenFocus device
-Current ambient temperature read by device: 299.800000
+Moved to position 323
+Current ambient temperature read by the device: 299.800000
 ```
+
+_Requires libopenfocus.dll to be in the same directory as the application_
+
