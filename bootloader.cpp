@@ -21,23 +21,17 @@
 const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
 const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
-unsigned short OpenFocus::Bootloader::PageSize = 0;
-unsigned short OpenFocus::Bootloader::FlashSize = 0;
-unsigned short OpenFocus::Bootloader::EEPROMSize = 0;
-
 dev_handle *OpenFocus::Bootloader::device = NULL;
 
 OpenFocus::Bootloader::Bootloader()
 {
-
+    if (device)
+        GetReport();
 }
 
 bool OpenFocus::Bootloader::Connect()
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))
-        return false;
-
-    if (GetReport() < 0)
         return false;
 
     return true;
@@ -52,7 +46,7 @@ void OpenFocus::Bootloader::Disconnect()
 
 bool OpenFocus::Bootloader::IsConnected()
 {
-    return (device != NULL);
+    return (device);
 }
 
 int OpenFocus::Bootloader::Reboot()
@@ -105,7 +99,7 @@ eeprom *OpenFocus::Bootloader::ReadEeprom()
     unsigned short address;
     for (address = 0; address < EEPROMSize; address += blocksize) {
         block *b = ReadEepromBlock(address, blocksize + sizeof(address)); /* Read a block of eeprom */
-        if (b == NULL)
+        if (!b)
             return NULL;
         memcpy(&ep->data[b->address], &b->data, blocksize); /* Copy the data to the eeprom buffer */
         free(b);

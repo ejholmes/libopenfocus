@@ -22,7 +22,7 @@ record *IntelHexFile::Open(const char *data, int length)
 {
     FILE *tmp = tmpfile();
 
-    assert(tmp != NULL);
+    assert(tmp);
 
     if (fwrite(data, 1, length, tmp) > 0)
         rewind(tmp);
@@ -32,14 +32,14 @@ record *IntelHexFile::Open(const char *data, int length)
 
 record *IntelHexFile::Open(FILE *fp)
 {
-    assert(fp != NULL);
+    assert(fp);
 
     record *current = NULL, *head = NULL, *last = NULL;
 
     while ((current = ParseLine(fp)) != NULL) {
-        if (head == NULL)
+        if (!head)
             head = current;
-        if (last != NULL)
+        if (last)
             last->next = current;
         last = current;
     }
@@ -70,17 +70,17 @@ void IntelHexFile::FreeRecords(record *records)
 
     for (current = records; current != NULL; current = current->next) {
         next = current;
-        if (current->data != NULL)
-            free(current->data);
+        free(current->data);
         free(current);
         current = next;
     }
+
+    records = NULL;
 }
 
 void IntelHexFile::FreeFlashData(flash *flashdata)
 {
-    if (flashdata->data != NULL)
-        free(flashdata->data);
+    free(flashdata->data);
     free(flashdata);
     flashdata = NULL;
 }

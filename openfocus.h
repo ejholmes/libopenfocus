@@ -80,8 +80,8 @@ namespace OpenFocus
         bool have_error;
     public:
         Device();
-        /* Finds the currently connected devices and returns a list consisting
-         * of their serial numbers*/
+        /* Finds the currently connected devices and returns a linked list
+         * of device_info */
         device_info *EnumerateDevices();
         /* Connect to the device */
         bool Connect();
@@ -183,11 +183,11 @@ namespace OpenFocus
 
 
         /* Page size of device */
-        static unsigned short PageSize;
+        unsigned short PageSize;
         /* Flash size of device */
-        static unsigned short FlashSize;
+        unsigned short FlashSize;
         /* EEPROM size */
-        static unsigned short EEPROMSize;
+        unsigned short EEPROMSize;
     };
 
     class Helper
