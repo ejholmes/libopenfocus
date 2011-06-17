@@ -5,12 +5,6 @@
 
 #include "intelhex.h"
 
-#ifdef DEBUG
-#define DEBUG_LOG(...) printf(__VA_ARGS__)
-#else
-#define DEBUG_LOG(...)
-#endif
-
 /*char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
 {
     record current;
