@@ -1,7 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include "usb.h"
+#include <stdio.h>
+#include <usb.h>
 
 /* Opens a usb_dev_handle based on the vendor id and product id */
 static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int productId, const char *serial)
@@ -42,6 +43,10 @@ static inline bool usb_open_device(usb_dev_handle **device, int vendorID, int pr
 havedevice:
     usb_set_configuration(handle, 1);
     usb_claim_interface(handle, 0);
+#ifdef LIBUSB_HAS_DETACH_KERNEL_DRIVER_NP
+    if (usb_detach_kernel_driver_np(handle, 0) < 0)
+        printf("Warning: Could not detach kernel driver: %s\nYou may need to run this as root or add yourself to the usb group", usb_strerror());
+#endif
     *device = handle;
     return true;
 }
