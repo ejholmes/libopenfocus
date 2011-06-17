@@ -82,7 +82,7 @@ namespace OpenFocus
         Device();
         /* Finds the currently connected devices and returns a linked list
          * of device_info */
-        device_info *EnumerateDevices();
+        static device_info *EnumerateDevices();
         /* Connect to the device */
         bool Connect();
         /* Connect to the device with a specific serial number */

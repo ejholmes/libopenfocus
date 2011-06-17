@@ -39,6 +39,8 @@ device_info *OpenFocus::Device::EnumerateDevices()
     struct usb_dev_handle *handle = NULL;
     device_info *head = NULL, *last = NULL, *current = NULL;
 
+    usb_init();
+
     usb_find_busses();
     usb_find_devices();
 
@@ -49,6 +51,7 @@ device_info *OpenFocus::Device::EnumerateDevices()
                 handle = usb_open(dev);
                 if (handle) {
                     current = (device_info *)malloc(sizeof(device_info *));
+                    current->next = NULL;
                     /* Copy serial */
                     usb_get_string_simple(handle, dev->descriptor.iSerialNumber, current->serial, sizeof(current->serial));
                     if (!head)
