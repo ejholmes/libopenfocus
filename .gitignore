@@ -26,3 +26,4 @@ depcomp
 autom4te.cache/*
 .deps/*
 stamp-h1
+.libs/*

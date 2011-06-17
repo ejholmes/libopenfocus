@@ -15,10 +15,22 @@ AC_PROG_CPP
 AC_PROG_LIBTOOL
 
 # Checks for libraries.
-AC_CHECK_LIB([usb], [usb_init])
+# AM_CONDITIONAL([LIBUSB_CONFIG], [which libusb-config])
+# AM_COND_IF([LIBUSB_CONFIG],[
+    # [CFLAGS = `libusb-config --cflags`]
+    # [LIBS = `libsub-config --libs`]
+    # ],[
+    # AC_CHECK_LIB([usb], [usb_init],,[AC_MSG_ERROR[libusb not found]])
+    # AC_CHECK_HEADERS([usb.h],,[AC_MSG_ERROR[usb.h not found]])
+    # ]
+# )
+PKG_CHECK_MODULES([libusb], [libusb],,[
+                   AC_CHECK_LIB([usb], [usb_init],,[AC_MSG_ERROR[libusb not found]])
+                   AC_CHECK_HEADERS([usb.h],,[AC_MSG_ERROR[usb.h not found]])
+                   ])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h string.h usb.h])
+AC_CHECK_HEADERS([stdlib.h string.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL
