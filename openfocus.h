@@ -41,6 +41,11 @@ typedef struct eeprom {
     char *data;                  /* EEPROM data */
 } eeprom;
 
+typedef struct device_info {
+    char serial[256];               /* Null terminated string consisting of the serial number */
+    struct device_info *next;            /* Next device in list */
+} device_info;
+
 typedef struct usb_dev_handle dev_handle;
 
 /* Typedef the classes to void for use with C */
@@ -75,6 +80,9 @@ namespace OpenFocus
         bool have_error;
     public:
         Device();
+        /* Finds the currently connected devices and returns a list consisting
+         * of their serial numbers*/
+        device_info *EnumerateDevices();
         /* Connect to the device */
         bool Connect();
         /* Connect to the device with a specific serial number */

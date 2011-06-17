@@ -32,6 +32,39 @@ OpenFocus::Device::Device()
     have_error = false;
 }
 
+device_info *OpenFocus::Device::EnumerateDevices()
+{
+    struct usb_bus *bus;
+    struct usb_device *dev;
+    struct usb_dev_handle *handle = NULL;
+    device_info *head = NULL, *last = NULL, *current = NULL;
+
+    usb_find_busses();
+    usb_find_devices();
+
+    for (bus = usb_get_busses(); bus; bus = bus->next) {
+        for (dev = bus->devices; dev; dev = dev->next) {
+            if (dev->descriptor.idVendor == Vendor_ID &&
+                    dev->descriptor.idProduct == Product_ID) {
+                handle = usb_open(dev);
+                if (handle) {
+                    current = (device_info *)malloc(sizeof(device_info *));
+                    /* Copy serial */
+                    usb_get_string_simple(handle, dev->descriptor.iSerialNumber, current->serial, sizeof(current->serial));
+                    if (!head)
+                        head = current;
+                    if (last)
+                        last->next = current;
+
+                    last = current;
+                }
+            }
+        }
+    }
+
+    return head;
+}
+
 bool OpenFocus::Device::Connect(const char *serial)
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, serial))
