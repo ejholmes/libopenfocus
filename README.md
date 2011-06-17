@@ -7,6 +7,8 @@ Compiling From Source
 ---------------------
 
 ```
+$ git clone git@github.com:CortexAstronomy/LibOpenFocus.github
+$ cd LibOpenFocus
 $ autoreconf --install && ./configure
 $ make
 $ make install
