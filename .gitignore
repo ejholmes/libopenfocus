@@ -6,3 +6,23 @@
 *.so.*
 *.dll
 *.lib
+
+# Autotools
+Makefile
+Makefile.in
+aclocal.m4
+config.guess
+config.log
+config.status
+config.sub
+configure
+config.h
+config.h*
+install-sh
+libtool
+ltmain.sh
+missing
+depcomp
+autom4te.cache/*
+.deps/*
+stamp-h1
