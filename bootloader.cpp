@@ -73,12 +73,8 @@ int OpenFocus::Bootloader::GetReport()
 block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, int length)
 {
     block *data = (block *)malloc(sizeof(char) * length);
-
-    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, &data->bytes, length, 5000);
-
-    if (retval < 0)
+    if (usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, &data->bytes, length, 5000) < 0)
         return NULL;
-
     return data;
 }
 
@@ -104,15 +100,7 @@ eeprom *OpenFocus::Bootloader::ReadEeprom()
 
 int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const unsigned char *data, int length)
 {
-    block *b = (block *)malloc(length + sizeof(address));
-    b->address = address;
-    memcpy(&b->data, data, length);
-
-    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
-
-    free(b);
-
-    return retval;
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
 int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, int length)
@@ -130,17 +118,8 @@ int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, int length)
 
 int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, int length)
 {
-    block *b = (block *)malloc(length + sizeof(address));
-    b->address = address;
-    memcpy(&b->data, data, length);
-
     printf("Writing flash block at address %4x\n", address);
-
-    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, 0, 0, &b->bytes, length + sizeof(address), 5000);
-
-    free(b);
-
-    return retval;
+    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
 int OpenFocus::Bootloader::WriteFlash(const unsigned char *data, int length)
