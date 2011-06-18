@@ -16,7 +16,7 @@ $ make
 $ make install
 ```
 
-**Windows**
+**Windows**  
 Requires [MSYS](http://www.mingw.org/wiki/msys)
 
 ```
