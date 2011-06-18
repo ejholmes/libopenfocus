@@ -24,7 +24,7 @@ typedef struct version {
     unsigned char major; /* Major version number */
 } version;
 
-/* Type that is used to send a block of data for eeprom or flash writing */
+/* Type that is used to receive a block of data for eeprom or flash writing */
 #pragma pack(1)
 typedef union block {
     struct {
