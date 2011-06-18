@@ -1,4 +1,3 @@
-ACLOCAL_AMFLAGS = -I m4
 lib_LTLIBRARIES = libopenfocus.la
 libopenfocus_la_CPPFLAGS = $(libsub_CFLAGS)
 libopenfocus_la_LIBADD = $(libusb_LIBS)
