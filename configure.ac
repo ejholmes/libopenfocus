@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_INIT([LibOpenFocus], [0.1], [eric@ejholmes.net])
-AC_CONFIG_HEADERS([config.h])
+# AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 LT_INIT
 
@@ -12,18 +12,10 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_CPP
+AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
-# Checks for libraries.
-# AM_CONDITIONAL([LIBUSB_CONFIG], [which libusb-config])
-# AM_COND_IF([LIBUSB_CONFIG],[
-    # [CFLAGS = `libusb-config --cflags`]
-    # [LIBS = `libsub-config --libs`]
-    # ],[
-    # AC_CHECK_LIB([usb], [usb_init],,[AC_MSG_ERROR[libusb not found]])
-    # AC_CHECK_HEADERS([usb.h],,[AC_MSG_ERROR[usb.h not found]])
-    # ]
-# )
+# Check for libusb
 PKG_CHECK_MODULES([libusb], [libusb],,[
                    AC_CHECK_LIB([usb], [usb_init],,[AC_MSG_ERROR[libusb not found]])
                    AC_CHECK_HEADERS([usb.h],,[AC_MSG_ERROR[usb.h not found]])
