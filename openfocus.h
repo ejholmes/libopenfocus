@@ -69,7 +69,7 @@ namespace OpenFocus
         static const unsigned short Product_ID; /* 0x416b */
 
         /* Returns a single byte and populates AbsolutePositioning and TemperatureCompensation bools */
-        int GetCapabilities(unsigned char *capabilities);
+        int GetCapabilities();
 
         /* Handle to the usb device */
         dev_handle *device;

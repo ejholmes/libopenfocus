@@ -1,11 +1,18 @@
 #include <iostream>
 #include <string.h>
+#include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
 #include <usb.h>
 
 #include "openfocus.h"
 #include "util.h"
+
+#ifdef DEBUG
+#define DBG(...) printf(__VA_ARGS__)
+#else
+#define DBG(...)
+#endif
 
 #define USB_RQ_MOVE_TO 0x00
 #define USB_RQ_HALT 0x01
@@ -70,20 +77,21 @@ device_info *OpenFocus::Device::EnumerateDevices()
 
 bool OpenFocus::Device::Connect(const char *serial)
 {
-    if (!usb_open_device(&device, Vendor_ID, Product_ID, serial))
+    if (!usb_open_device(&device, Vendor_ID, Product_ID, serial)) {
+        DBG("Device not found or unable to connect to usb device!\n");
         return false;
+    }
 
     /* Get the capabilities from the device */
-    unsigned char caps = 0;
-    GetCapabilities(&caps);
-    CanAbsolutePosition = ((caps & CAP_ABSOLUTE_POSITIONING) == CAP_ABSOLUTE_POSITIONING);
-    CanTemperatureCompensate = ((caps & CAP_TEMPERATURE_COMPENSATION) == CAP_TEMPERATURE_COMPENSATION);
+    GetCapabilities();
 
     struct usb_device *dev = usb_device(device);
 
     /* Get firmware version and serial number */
     memcpy(&FirmwareVersion, &dev->descriptor.bcdDevice, sizeof(FirmwareVersion));
+    DBG("Firmware version: %d.%d\n", FirmwareVersion.major, FirmwareVersion.minor);
     usb_get_string_simple(device, dev->descriptor.iSerialNumber, Serial, sizeof(Serial));
+    DBG("Device serial: %s\n", Serial);
 
     return true;
 }
@@ -163,9 +171,14 @@ unsigned short OpenFocus::Device::GetPosition()
     return position;
 }
 
-int OpenFocus::Device::GetCapabilities(unsigned char *capabilities)
+int OpenFocus::Device::GetCapabilities()
 {
-    return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)capabilities, sizeof(unsigned char), 5000);
+    unsigned char capabilities = 0;
+    int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)&capabilities, sizeof(unsigned char), 5000);
+    CanAbsolutePosition = ((capabilities & CAP_ABSOLUTE_POSITIONING) == CAP_ABSOLUTE_POSITIONING);
+    CanTemperatureCompensate = ((capabilities & CAP_TEMPERATURE_COMPENSATION) == CAP_TEMPERATURE_COMPENSATION);
+
+    return retval;
 }
 
 void OpenFocus::Device::DoTempComp()

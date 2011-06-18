@@ -6,6 +6,12 @@
 #include "openfocus.h"
 #include "util.h"
 
+#ifdef DEBUG
+#define DBG(...) printf(__VA_ARGS__)
+#else
+#define DBG(...)
+#endif
+
 #define USB_RQ_REBOOT 0x01
 #define USB_RQ_WRITE_FLASH_BLOCK 0x02
 #define USB_RQ_GET_REPORT 0x03
@@ -118,7 +124,7 @@ int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, int length)
 
 int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, int length)
 {
-    printf("Writing flash block at address %4x\n", address);
+    DBG("Writing flash block at address %4x\n", address);
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
