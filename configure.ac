@@ -4,6 +4,7 @@
 AC_INIT([LibOpenFocus], [0.1], [eric@ejholmes.net])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
+AC_CONFIG_MACRO_DIR([m4])
 LT_INIT
 
 # Checks for programs.
