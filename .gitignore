@@ -8,6 +8,8 @@
 *.lib
 *.la
 *.lo
+*.gz
+*.tar
 
 # Autotools
 Makefile
