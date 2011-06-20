@@ -242,7 +242,7 @@
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
-				PRODUCT_NAME = libopenfocus.dylib;
+				PRODUCT_NAME = openfocus;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -272,7 +272,7 @@
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
-				PRODUCT_NAME = libopenfocus.a;
+				PRODUCT_NAME = openfocus;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -291,6 +291,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
+				HEADER_SEARCH_PATHS = "/usr/local/Crosspack-AVR/include";
+				LIBRARY_SEARCH_PATHS = "/usr/local/Crosspack-AVR/lib";
+				OTHER_LDFLAGS = "-lusb";
 			};
 			name = Release;
 		};
