@@ -22,7 +22,7 @@ Requires [MSYS](http://www.mingw.org/wiki/msys)
 ```
 > git clone git@github.com:CortexAstronomy/LibOpenFocus.github
 > cd LibOpenFocus
-> make Makefile.win
+> make -f Makefile.win
 ```
 
 **Mac OS X**
