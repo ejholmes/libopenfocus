@@ -1,5 +1,5 @@
-Name: Makefile
-	# Author: Eric J. Holmes
+# Name: Makefile
+# Author: Eric J. Holmes
 
 UNAME = $(shell uname)
 
@@ -8,17 +8,15 @@ USBLIBS = -L/usr/local/lib -lusb
 
 NAME = openfocus
 
-OBJECTS = device.o bootloader.o helper.o intelhex.o
-cdevice.o
+OBJECTS = device.o bootloader.o helper.o intelhex.o cdevice.o
 
 CC		= gcc
 CPP     = g++
-CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -fpic -Wall
+CFLAGS	= $(CPPFLAGS) $(USBFLAGS) -O -g -Wall
 LIBS	= $(USBLIBS)
 OUTPUT  = lib$(NAME).a
 
-LDFLAGS = -Wl,--out-implib,lib$(NAME).lib -o
-lib$(NAME).dll
+LDFLAGS = -Wl,--out-implib,lib$(NAME).lib -o lib$(NAME).dll
 
 
 all: $(OUTPUT)
@@ -30,7 +28,8 @@ all: $(OUTPUT)
 	$(CC) $(CFLAGS) -c $<
 
 $(OUTPUT): $(OBJECTS)
-	ar rcs $(OUTPUT) $(OBJECTS) $(CPP) -shared $(LDFLAGS) $(OBJECTS) $(USBLIBS)
+	ar rcs $(OUTPUT) $(OBJECTS) 
+	$(CPP) -shared $(LDFLAGS) $(OBJECTS) $(USBLIBS)
 
 clean:
 	rm -f *.o $(OUTPUT) *.exe *.a *.dll *.lib *.so *.so*

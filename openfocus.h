@@ -209,7 +209,13 @@ namespace OpenFocus
 #ifdef __cplusplus
     extern "C" {
 #endif
-        int device_get_position(Device *device, unsigned short *position);
+        int device_connect(Device **device);
+        int device_connect_serial(Device **device, const char *serial);
+        void device_disconnect(Device *device);
+        int device_move_to(Device *device, unsigned short position);
+        int device_halt(Device *device);
+        void device_reboot_to_bootloader(Device *device);
+        unsigned short device_get_position(Device *device);
         int device_reverse_direction(Device *device, int reverse);
         int device_is_moving(Device *device);
         int device_is_connected(Device *device);
