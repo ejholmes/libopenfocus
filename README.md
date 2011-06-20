@@ -1,6 +1,6 @@
 LibOpenFocus
 ============
-This is a C++ library (with some C compatability) for communicating with the OpenFocus device and
+This is a C++ library (with some C compatibility) for communicating with the OpenFocus device and
 bootloader. For more information about OpenFocus, see https://github.com/CortexAstronomy/OpenFocus.
 
 Compiling From Source
