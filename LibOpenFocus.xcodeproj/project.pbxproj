@@ -1,0 +1,330 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0787B2C213AEF53400FE1F82 /* bootloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8C13AEEF2A002EBCB4 /* bootloader.cpp */; };
+		0787B2C313AEF53400FE1F82 /* cdevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8D13AEEF2A002EBCB4 /* cdevice.cpp */; };
+		0787B2C413AEF53400FE1F82 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8E13AEEF2A002EBCB4 /* device.cpp */; };
+		0787B2C513AEF53400FE1F82 /* helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8F13AEEF2A002EBCB4 /* helper.cpp */; };
+		0787B2C613AEF53400FE1F82 /* intelhex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA9013AEEF2A002EBCB4 /* intelhex.cpp */; };
+		0787B2C713AEF53C00FE1F82 /* openfocus.h in Headers */ = {isa = PBXBuildFile; fileRef = 0726CA9C13AEEF4D002EBCB4 /* openfocus.h */; };
+		0787B3A813AEF55600FE1F82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0726CAB613AEF0E4002EBCB4 /* IOKit.framework */; };
+		0787B3A913AEF55B00FE1F82 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0726CABB13AEF0F2002EBCB4 /* CoreFoundation.framework */; };
+		0787B3C613AEF5A500FE1F82 /* openfocus.h in Headers */ = {isa = PBXBuildFile; fileRef = 0726CA9C13AEEF4D002EBCB4 /* openfocus.h */; };
+		0787B3C713AEF5AC00FE1F82 /* bootloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8C13AEEF2A002EBCB4 /* bootloader.cpp */; };
+		0787B3C813AEF5AC00FE1F82 /* cdevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8D13AEEF2A002EBCB4 /* cdevice.cpp */; };
+		0787B3C913AEF5AC00FE1F82 /* device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8E13AEEF2A002EBCB4 /* device.cpp */; };
+		0787B3CA13AEF5AC00FE1F82 /* helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA8F13AEEF2A002EBCB4 /* helper.cpp */; };
+		0787B3CB13AEF5AC00FE1F82 /* intelhex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0726CA9013AEEF2A002EBCB4 /* intelhex.cpp */; };
+		0787B3CC13AEF5B200FE1F82 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0726CABB13AEF0F2002EBCB4 /* CoreFoundation.framework */; };
+		0787B3CD13AEF5B200FE1F82 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0726CAB613AEF0E4002EBCB4 /* IOKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0726CA8C13AEEF2A002EBCB4 /* bootloader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bootloader.cpp; sourceTree = "<group>"; };
+		0726CA8D13AEEF2A002EBCB4 /* cdevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cdevice.cpp; sourceTree = "<group>"; };
+		0726CA8E13AEEF2A002EBCB4 /* device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = device.cpp; sourceTree = "<group>"; };
+		0726CA8F13AEEF2A002EBCB4 /* helper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = helper.cpp; sourceTree = "<group>"; };
+		0726CA9013AEEF2A002EBCB4 /* intelhex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = intelhex.cpp; sourceTree = "<group>"; };
+		0726CA9B13AEEF4D002EBCB4 /* intelhex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intelhex.h; sourceTree = "<group>"; };
+		0726CA9C13AEEF4D002EBCB4 /* openfocus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = openfocus.h; sourceTree = "<group>"; };
+		0726CA9D13AEEF4D002EBCB4 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		0726CAB613AEF0E4002EBCB4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
+		0726CABB13AEF0F2002EBCB4 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
+		074DA3F713AEF79600B72F7A /* openfocus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; name = openfocus; path = build/Debug/libopenfocus.dylib; sourceTree = "<group>"; };
+		074DA3F813AEF79600B72F7A /* libopenfocus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libopenfocus.a; path = build/Debug/liblibopenfocus.a.a; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0787B2BC13AEF50200FE1F82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0787B3A913AEF55B00FE1F82 /* CoreFoundation.framework in Frameworks */,
+				0787B3A813AEF55600FE1F82 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0787B3C113AEF59700FE1F82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0787B3CC13AEF5B200FE1F82 /* CoreFoundation.framework in Frameworks */,
+				0787B3CD13AEF5B200FE1F82 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0726CA7713AEEEC4002EBCB4 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				0726CA8C13AEEF2A002EBCB4 /* bootloader.cpp */,
+				0726CA8D13AEEF2A002EBCB4 /* cdevice.cpp */,
+				0726CA8E13AEEF2A002EBCB4 /* device.cpp */,
+				0726CA8F13AEEF2A002EBCB4 /* helper.cpp */,
+				0726CA9013AEEF2A002EBCB4 /* intelhex.cpp */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		0726CA7813AEEECA002EBCB4 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				0726CA9B13AEEF4D002EBCB4 /* intelhex.h */,
+				0726CA9C13AEEF4D002EBCB4 /* openfocus.h */,
+				0726CA9D13AEEF4D002EBCB4 /* util.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		0726CA7E13AEEEE2002EBCB4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				074DA3F713AEF79600B72F7A /* openfocus */,
+				074DA3F813AEF79600B72F7A /* libopenfocus.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0726CAB413AEF0CD002EBCB4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0726CABB13AEF0F2002EBCB4 /* CoreFoundation.framework */,
+				0726CAB613AEF0E4002EBCB4 /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		07C2C4BF13AEEEA900A4FE67 = {
+			isa = PBXGroup;
+			children = (
+				0726CAB413AEF0CD002EBCB4 /* Frameworks */,
+				0726CA7813AEEECA002EBCB4 /* Headers */,
+				0726CA7713AEEEC4002EBCB4 /* Sources */,
+				0726CA7E13AEEEE2002EBCB4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0787B2BA13AEF50200FE1F82 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0787B2C713AEF53C00FE1F82 /* openfocus.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0787B3BF13AEF59700FE1F82 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0787B3C613AEF5A500FE1F82 /* openfocus.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0787B2BD13AEF50200FE1F82 /* Dynamic Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0787B2C113AEF52000FE1F82 /* Build configuration list for PBXNativeTarget "Dynamic Library" */;
+			buildPhases = (
+				0787B2BA13AEF50200FE1F82 /* Headers */,
+				0787B2BB13AEF50200FE1F82 /* Sources */,
+				0787B2BC13AEF50200FE1F82 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Dynamic Library";
+			productName = libopenfocus.dylib;
+			productReference = 074DA3F713AEF79600B72F7A /* openfocus */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		0787B3C213AEF59700FE1F82 /* Static Library */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0787B3D513AEF5C600FE1F82 /* Build configuration list for PBXNativeTarget "Static Library" */;
+			buildPhases = (
+				0787B3BF13AEF59700FE1F82 /* Headers */,
+				0787B3C013AEF59700FE1F82 /* Sources */,
+				0787B3C113AEF59700FE1F82 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Static Library";
+			productName = libopenfocus.a;
+			productReference = 074DA3F813AEF79600B72F7A /* libopenfocus.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		07C2C4C113AEEEA900A4FE67 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 07C2C4C413AEEEA900A4FE67 /* Build configuration list for PBXProject "LibOpenFocus" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 07C2C4BF13AEEEA900A4FE67;
+			productRefGroup = 0726CA7E13AEEEE2002EBCB4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0787B2BD13AEF50200FE1F82 /* Dynamic Library */,
+				0787B3C213AEF59700FE1F82 /* Static Library */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0787B2BB13AEF50200FE1F82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0787B2C213AEF53400FE1F82 /* bootloader.cpp in Sources */,
+				0787B2C313AEF53400FE1F82 /* cdevice.cpp in Sources */,
+				0787B2C413AEF53400FE1F82 /* device.cpp in Sources */,
+				0787B2C513AEF53400FE1F82 /* helper.cpp in Sources */,
+				0787B2C613AEF53400FE1F82 /* intelhex.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0787B3C013AEF59700FE1F82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0787B3C713AEF5AC00FE1F82 /* bootloader.cpp in Sources */,
+				0787B3C813AEF5AC00FE1F82 /* cdevice.cpp in Sources */,
+				0787B3C913AEF5AC00FE1F82 /* device.cpp in Sources */,
+				0787B3CA13AEF5AC00FE1F82 /* helper.cpp in Sources */,
+				0787B3CB13AEF5AC00FE1F82 /* intelhex.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0787B2BF13AEF50200FE1F82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = lib;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = libopenfocus.dylib;
+			};
+			name = Debug;
+		};
+		0787B2C013AEF50200FE1F82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = lib;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = libopenfocus.dylib;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		0787B3C413AEF59800FE1F82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = libopenfocus.a;
+			};
+			name = Debug;
+		};
+		0787B3C513AEF59800FE1F82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PREBINDING = NO;
+				PRODUCT_NAME = libopenfocus.a;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		07C2C4C213AEEEA900A4FE67 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				HEADER_SEARCH_PATHS = "/usr/local/Crosspack-AVR/include";
+				LIBRARY_SEARCH_PATHS = "/usr/local/Crosspack-AVR/lib";
+				OTHER_LDFLAGS = "-lusb";
+			};
+			name = Debug;
+		};
+		07C2C4C313AEEEA900A4FE67 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0787B2C113AEF52000FE1F82 /* Build configuration list for PBXNativeTarget "Dynamic Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0787B2BF13AEF50200FE1F82 /* Debug */,
+				0787B2C013AEF50200FE1F82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0787B3D513AEF5C600FE1F82 /* Build configuration list for PBXNativeTarget "Static Library" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0787B3C413AEF59800FE1F82 /* Debug */,
+				0787B3C513AEF59800FE1F82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07C2C4C413AEEEA900A4FE67 /* Build configuration list for PBXProject "LibOpenFocus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07C2C4C213AEEEA900A4FE67 /* Debug */,
+				07C2C4C313AEEEA900A4FE67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 07C2C4C113AEEEA900A4FE67 /* Project object */;
+}
