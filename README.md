@@ -1,6 +1,6 @@
 LibOpenFocus
 ============
-This is a C++ library (with some C comatability) for communicating with the OpenFocus device and
+This is a C++ library (with some C compatability) for communicating with the OpenFocus device and
 bootloader. For more information about OpenFocus, see https://github.com/CortexAstronomy/OpenFocus.
 
 Compiling From Source
@@ -11,7 +11,7 @@ Compiling From Source
 ```
 $ git clone git@github.com:CortexAstronomy/LibOpenFocus.github
 $ cd LibOpenFocus
-$ autoreconf --install && ./configure
+$ autoreconf --install && ./configure --prefix=/usr
 $ make
 $ make install
 ```
