@@ -178,6 +178,10 @@ int OpenFocus::Device::GetCapabilities()
     CanAbsolutePosition = ((capabilities & CAP_ABSOLUTE_POSITIONING) == CAP_ABSOLUTE_POSITIONING);
     CanTemperatureCompensate = ((capabilities & CAP_TEMPERATURE_COMPENSATION) == CAP_TEMPERATURE_COMPENSATION);
 
+    DBG("Capabilities:\n");
+    DBG("\tAbsolute Positioning: %s\n", CanAbsolutePosition ? "yes" : "no");
+    DBG("\tTemperature Compensation: %s\n", CanTemperatureCompensate ? "yes" : "no");
+
     return retval;
 }
 

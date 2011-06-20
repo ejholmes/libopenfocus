@@ -183,11 +183,11 @@ namespace OpenFocus
 
 
         /* Page size of device */
-        unsigned short PageSize;
+        static unsigned short PageSize;
         /* Flash size of device */
-        unsigned short FlashSize;
+        static unsigned short FlashSize;
         /* EEPROM size */
-        unsigned short EEPROMSize;
+        static unsigned short EEPROMSize;
     };
 
     class Helper

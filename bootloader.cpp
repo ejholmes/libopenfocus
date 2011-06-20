@@ -21,18 +21,23 @@
 const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
 const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
 
+unsigned short OpenFocus::Bootloader::PageSize = 0;
+unsigned short OpenFocus::Bootloader::FlashSize = 0;
+unsigned short OpenFocus::Bootloader::EEPROMSize = 0;
+
 dev_handle *OpenFocus::Bootloader::device = NULL;
 
 OpenFocus::Bootloader::Bootloader()
 {
-    if (device)
-        GetReport();
 }
 
 bool OpenFocus::Bootloader::Connect()
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))
         return false;
+
+    if (device)
+        GetReport();
 
     return true;
 }
@@ -72,6 +77,11 @@ int OpenFocus::Bootloader::GetReport()
     PageSize = report.pagesize;
     FlashSize = report.flashsize;
     EEPROMSize = report.eepromsize;
+
+    DBG("Device Information:\n");
+    DBG("\tPage Size: %d\n", PageSize);
+    DBG("\tFlash Size: %d\n", FlashSize);
+    DBG("\tEEPROM Size: %d\n", EEPROMSize);
 
     return retval;
 }
