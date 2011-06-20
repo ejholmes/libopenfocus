@@ -36,8 +36,8 @@
 		0726CA9D13AEEF4D002EBCB4 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		0726CAB613AEF0E4002EBCB4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		0726CABB13AEF0F2002EBCB4 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
-		074DA3F713AEF79600B72F7A /* openfocus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; name = openfocus; path = build/Debug/libopenfocus.dylib; sourceTree = "<group>"; };
-		074DA3F813AEF79600B72F7A /* libopenfocus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libopenfocus.a; path = build/Debug/liblibopenfocus.a.a; sourceTree = "<group>"; };
+		074DA3F713AEF79600B72F7A /* libopenfocus.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libopenfocus.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		074DA3F813AEF79600B72F7A /* libopenfocus.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libopenfocus.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 		0726CA7E13AEEEE2002EBCB4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				074DA3F713AEF79600B72F7A /* openfocus */,
+				074DA3F713AEF79600B72F7A /* libopenfocus.dylib */,
 				074DA3F813AEF79600B72F7A /* libopenfocus.a */,
 			);
 			name = Products;
@@ -148,7 +148,7 @@
 			);
 			name = "Dynamic Library";
 			productName = libopenfocus.dylib;
-			productReference = 074DA3F713AEF79600B72F7A /* openfocus */;
+			productReference = 074DA3F713AEF79600B72F7A /* libopenfocus.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 		0787B3C213AEF59700FE1F82 /* Static Library */ = {
@@ -227,7 +227,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
-				PRODUCT_NAME = libopenfocus.dylib;
+				PRODUCT_NAME = openfocus;
 			};
 			name = Debug;
 		};
@@ -258,7 +258,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = /usr/local/lib;
 				PREBINDING = NO;
-				PRODUCT_NAME = libopenfocus.a;
+				PRODUCT_NAME = openfocus;
 			};
 			name = Debug;
 		};
