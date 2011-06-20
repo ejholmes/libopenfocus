@@ -25,7 +25,8 @@ Requires [MSYS](http://www.mingw.org/wiki/msys)
 > make -f Makefile.win
 ```
 
-**Mac OS X**
+**Mac OS X**  
+Requires Xcode
 
 ```
 $ git clone git@github.com:CortexAstronomy/LibOpenFocus.github
