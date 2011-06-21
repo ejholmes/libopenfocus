@@ -5,13 +5,12 @@ bootloader. For more information about OpenFocus, see https://github.com/CortexA
 
 Compiling From Source
 ---------------------
+Download the most recent source package from the [downloads section](https://github.com/CortexAstronomy/LibOpenFocus/downloads) and extract the contents.
 
 **Linux**
 
 ```
-$ git clone git@github.com:CortexAstronomy/LibOpenFocus.github
-$ cd LibOpenFocus
-$ autoreconf --install && ./configure --prefix=/usr
+$ ./configure --prefix=/usr
 $ make
 $ make install
 ```
@@ -20,8 +19,6 @@ $ make install
 Requires [MSYS](http://www.mingw.org/wiki/msys)
 
 ```
-> git clone git@github.com:CortexAstronomy/LibOpenFocus.github
-> cd LibOpenFocus
 > make -f Makefile.win
 ```
 
@@ -29,7 +26,6 @@ Requires [MSYS](http://www.mingw.org/wiki/msys)
 Requires Xcode
 
 ```
-$ git clone git@github.com:CortexAstronomy/LibOpenFocus.github
 $ open LibOpenFocus.xcodeproj
 ```
 
