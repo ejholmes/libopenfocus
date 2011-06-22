@@ -1,6 +1,8 @@
 #ifndef OPENFOCUS_H
 #define OPENFOCUS_H
 
+#include <stdlib.h>
+
 #ifdef __WIN32__
 #define EXPORT __declspec(dllexport)
 #else
@@ -163,18 +165,18 @@ namespace OpenFocus
         /* Disconnects the bootloader */
         void Disconnect();
         /* Write block of data to address */
-        int WriteEepromBlock(unsigned short address, const unsigned char *data, int length);
+        int WriteEepromBlock(unsigned short address, const unsigned char *data, size_t length);
         /* Write data to eeprom. Length should not exceed EEPROMSize */
-        int WriteEeprom(const unsigned char *data, int length);
+        int WriteEeprom(const unsigned char *data, size_t length);
         /* Write block of data to address in flash */
-        int WriteFlashBlock(unsigned short address, const unsigned char *data, int length);
+        int WriteFlashBlock(unsigned short address, const unsigned char *data, size_t length);
         /* Write data to flash. Length should not exceed FlashSize - 4096 */
-        int WriteFlash(const unsigned char *data, int length);
+        int WriteFlash(const unsigned char *data, size_t length);
         /* Exits bootloader by jumping to (void *)0 */
         int Reboot();
 
         /* Requests length bytes from eeprom at address and puts it in data, returns an eeprom block */
-        block *ReadEepromBlock(unsigned short address, int length);
+        block *ReadEepromBlock(unsigned short address, size_t length);
         /* Requests all the eeprom and stores it in data, returns eeprom data */
         eeprom *ReadEeprom();
 
@@ -205,10 +207,10 @@ namespace OpenFocus
     };
 #endif
 
-/* C Comptability functions */
 #ifdef __cplusplus
     extern "C" {
 #endif
+        /* Device Wrapper Functions */
         int device_connect(Device **device);
         int device_connect_serial(Device **device, const char *serial);
         void device_disconnect(Device *device);
@@ -229,6 +231,24 @@ namespace OpenFocus
         void device_disable_temperature_compensation(Device *device);
         bool device_temperature_compensation_enabled(Device *device);
         void device_do_temp_comp(Device *device);
+
+        /* Bootloader Wrapper Functions */
+        /*int bootloader_connect(Bootloader **device);
+        int bootloader_disconnect(Bootloader *device);
+        int bootloader_write_eeprom_block(Bootloader *device, unsigned short address, const unsigned char *data, size_t length);
+        int bootloader_write_eeprom(Bootloader *device, const unsigned char *data, size_t length);
+        int bootloader_write_flash_block(Bootloader *device, unsigned short address, const unsigned char *data, size_t length);
+        int bootloader_write_flash(Bootloader *device, unsigned char *data, size_t length);
+        int Reboot();
+
+        block *bootloader_read_eeprom_block(Bootloader *device, unsigned short address, size_t length);
+        eeprom *bootloader_read_eeprom(Bootloader *device);
+
+        int bootloader_is_connected(Bootloader *device);
+
+        unsigned short bootloader_get_page_size(Bootloader *device);
+        unsigned short bootloader_get_flash_size(Bootloader *device);
+        unsigned short bootloader_get_eeprom_size(Bootloader *device);*/
 #ifdef __cplusplus
     }
 }

@@ -43,9 +43,6 @@ private:
     /* Parses a line */
     static record *ParseLine(FILE *fp);
 
-    /* Converts a record to a string record */
-    static char *RecordToString(record *rec);
-
     /* Reads some number of characters from fp and converts it from a hex number to int */
     static int ReadBytes(FILE *fp, int length);
 

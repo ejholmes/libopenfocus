@@ -86,7 +86,7 @@ int OpenFocus::Bootloader::GetReport()
     return retval;
 }
 
-block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, int length)
+block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, size_t length)
 {
     block *data = (block *)malloc(sizeof(char) * length);
     if (usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, &data->bytes, length, 5000) < 0)
@@ -114,12 +114,12 @@ eeprom *OpenFocus::Bootloader::ReadEeprom()
     return ep;
 }
 
-int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const unsigned char *data, int length)
+int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const unsigned char *data, size_t length)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
-int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, int length)
+int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, size_t length)
 {
     unsigned short blocksize = 2;
     for (unsigned short address = 0; address < length; address += blocksize) {
@@ -132,13 +132,13 @@ int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, int length)
     return 1;
 }
 
-int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, int length)
+int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, size_t length)
 {
     DBG("Writing flash block at address %4x\n", address);
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
-int OpenFocus::Bootloader::WriteFlash(const unsigned char *data, int length)
+int OpenFocus::Bootloader::WriteFlash(const unsigned char *data, size_t length)
 {
     for (unsigned short address = 0; address < length; address += PageSize) {
         if (WriteFlashBlock(address, data, PageSize) <= 0)

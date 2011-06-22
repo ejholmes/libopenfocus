@@ -79,11 +79,6 @@ void IntelHexFile::FreeFlashData(flash *flashdata)
     flashdata = NULL;
 }
 
-char *IntelHexFile::RecordToString(record *rec)
-{
-    return NULL;
-}
-
 record *IntelHexFile::ParseLine(FILE *fp)
 {
     record *rec = (record *)malloc(sizeof(record));
