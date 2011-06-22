@@ -18,20 +18,22 @@
 #define USB_RQ_WRITE_EEPROM_BLOCK 0x04
 #define USB_RQ_READ_EEPROM_BLOCK 0x05
 
-const unsigned short OpenFocus::Bootloader::Vendor_ID = BOOTLOADER_VID;
-const unsigned short OpenFocus::Bootloader::Product_ID = BOOTLOADER_PID;
+using namespace OpenFocus;
 
-unsigned short OpenFocus::Bootloader::PageSize = 0;
-unsigned short OpenFocus::Bootloader::FlashSize = 0;
-unsigned short OpenFocus::Bootloader::EEPROMSize = 0;
+const unsigned short Bootloader::Vendor_ID = BOOTLOADER_VID;
+const unsigned short Bootloader::Product_ID = BOOTLOADER_PID;
 
-dev_handle *OpenFocus::Bootloader::device = NULL;
+unsigned short Bootloader::PageSize = 0;
+unsigned short Bootloader::FlashSize = 0;
+unsigned short Bootloader::EEPROMSize = 0;
 
-OpenFocus::Bootloader::Bootloader()
+dev_handle *Bootloader::device = NULL;
+
+Bootloader::Bootloader()
 {
 }
 
-bool OpenFocus::Bootloader::Connect()
+bool Bootloader::Connect()
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, NULL))
         return false;
@@ -42,24 +44,24 @@ bool OpenFocus::Bootloader::Connect()
     return true;
 }
 
-void OpenFocus::Bootloader::Disconnect()
+void Bootloader::Disconnect()
 {
     if (device)
         usb_close(device);
     device = NULL;
 }
 
-bool OpenFocus::Bootloader::IsConnected()
+bool Bootloader::IsConnected()
 {
     return (device);
 }
 
-int OpenFocus::Bootloader::Reboot()
+int Bootloader::Reboot()
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT, 0, 0, NULL, 0, 5000);
 }
 
-int OpenFocus::Bootloader::GetReport()
+int Bootloader::GetReport()
 {
 #pragma pack(1)
     union {
@@ -86,7 +88,7 @@ int OpenFocus::Bootloader::GetReport()
     return retval;
 }
 
-block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, size_t length)
+block *Bootloader::ReadEepromBlock(unsigned short address, size_t length)
 {
     block *data = (block *)malloc(sizeof(char) * length);
     if (usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, &data->bytes, length, 5000) < 0)
@@ -94,7 +96,7 @@ block *OpenFocus::Bootloader::ReadEepromBlock(unsigned short address, size_t len
     return data;
 }
 
-eeprom *OpenFocus::Bootloader::ReadEeprom()
+eeprom *Bootloader::ReadEeprom()
 {
     unsigned short blocksize = 128;
 
@@ -114,12 +116,12 @@ eeprom *OpenFocus::Bootloader::ReadEeprom()
     return ep;
 }
 
-int OpenFocus::Bootloader::WriteEepromBlock(unsigned short address, const unsigned char *data, size_t length)
+int Bootloader::WriteEepromBlock(unsigned short address, const unsigned char *data, size_t length)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_EEPROM_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
-int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, size_t length)
+int Bootloader::WriteEeprom(const unsigned char *data, size_t length)
 {
     unsigned short blocksize = 2;
     for (unsigned short address = 0; address < length; address += blocksize) {
@@ -132,13 +134,13 @@ int OpenFocus::Bootloader::WriteEeprom(const unsigned char *data, size_t length)
     return 1;
 }
 
-int OpenFocus::Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, size_t length)
+int Bootloader::WriteFlashBlock(unsigned short address, const unsigned char *data, size_t length)
 {
     DBG("Writing flash block at address %4x\n", address);
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_WRITE_FLASH_BLOCK, address, 0, (char *)data, length, 5000);
 }
 
-int OpenFocus::Bootloader::WriteFlash(const unsigned char *data, size_t length)
+int Bootloader::WriteFlash(const unsigned char *data, size_t length)
 {
     for (unsigned short address = 0; address < length; address += PageSize) {
         if (WriteFlashBlock(address, data, PageSize) <= 0)

@@ -27,10 +27,12 @@
 #define CAP_ABSOLUTE_POSITIONING 0x01
 #define CAP_TEMPERATURE_COMPENSATION 0x02
 
-const unsigned short OpenFocus::Device::Vendor_ID = DEVICE_VID;
-const unsigned short OpenFocus::Device::Product_ID = DEVICE_PID;
+using namespace OpenFocus;
 
-OpenFocus::Device::Device()
+const unsigned short Device::Vendor_ID = DEVICE_VID;
+const unsigned short Device::Product_ID = DEVICE_PID;
+
+Device::Device()
 {
     device = NULL;
     TemperatureCoefficient = 0.0;
@@ -39,7 +41,7 @@ OpenFocus::Device::Device()
     have_error = false;
 }
 
-device_info *OpenFocus::Device::EnumerateDevices()
+device_info *Device::EnumerateDevices()
 {
     struct usb_bus *bus;
     struct usb_device *dev;
@@ -75,7 +77,7 @@ device_info *OpenFocus::Device::EnumerateDevices()
     return head;
 }
 
-bool OpenFocus::Device::Connect(const char *serial)
+bool Device::Connect(const char *serial)
 {
     if (!usb_open_device(&device, Vendor_ID, Product_ID, serial)) {
         DBG("Device not found or unable to connect to usb device!\n");
@@ -96,56 +98,56 @@ bool OpenFocus::Device::Connect(const char *serial)
     return true;
 }
 
-bool OpenFocus::Device::Connect()
+bool Device::Connect()
 {
     return Connect(NULL);
 }
 
-void OpenFocus::Device::Disconnect()
+void Device::Disconnect()
 {
     if (device != NULL)
         usb_close(device);
     device = NULL;
 }
 
-bool OpenFocus::Device::IsConnected()
+bool Device::IsConnected()
 {
     return (device != NULL);
 }
 
-void OpenFocus::Device::RebootToBootloader()
+void Device::RebootToBootloader()
 {
     usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REBOOT_TO_BOOTLOADER, 0, 0, NULL, 0, 5000);
 }
 
-int OpenFocus::Device::MoveTo(unsigned short position)
+int Device::MoveTo(unsigned short position)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_MOVE_TO, (int)position, 0, NULL, 0, 5000);
 }
 
-int OpenFocus::Device::SetPosition(unsigned short position)
+int Device::SetPosition(unsigned short position)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_SET_POSITION, (int)position, 0, NULL, 0, 5000);
 }
 
-int OpenFocus::Device::Halt()
+int Device::Halt()
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_HALT, 0, 0, NULL, 0, 5000);
 }
 
-bool OpenFocus::Device::IsMoving()
+bool Device::IsMoving()
 {
     char ismoving;
     usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_IS_MOVING, 0, 0, &ismoving, sizeof(bool), 5000);
     return (bool)ismoving;
 }
 
-int OpenFocus::Device::ReverseDirection(bool reverse)
+int Device::ReverseDirection(bool reverse)
 {
     return usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_OUT, USB_RQ_REVERSE, (int)((reverse)?1:0), 0, NULL, 0, 5000);
 }
 
-double OpenFocus::Device::GetTemperature()
+double Device::GetTemperature()
 {
     unsigned short adc;
     double temperature;
@@ -161,7 +163,7 @@ double OpenFocus::Device::GetTemperature()
     return temperature;
 }
 
-unsigned short OpenFocus::Device::GetPosition()
+unsigned short Device::GetPosition()
 {
     unsigned short position;
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_POSITION, 0, 0, (char *)&position, sizeof(position), 5000);
@@ -171,7 +173,7 @@ unsigned short OpenFocus::Device::GetPosition()
     return position;
 }
 
-int OpenFocus::Device::GetCapabilities()
+int Device::GetCapabilities()
 {
     unsigned char capabilities = 0;
     int retval = usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_GET_CAPABILITIES, 0, 0, (char *)&capabilities, sizeof(unsigned char), 5000);
@@ -185,7 +187,7 @@ int OpenFocus::Device::GetCapabilities()
     return retval;
 }
 
-void OpenFocus::Device::DoTempComp()
+void Device::DoTempComp()
 {
     if (TempCompEnabled && !IsMoving() && (LastTemperature != 0.0)) {
         double CurrentTemperature = GetTemperature();
@@ -199,23 +201,23 @@ void OpenFocus::Device::DoTempComp()
     }
 }
 
-void OpenFocus::Device::EnableTemperatureCompensation()
+void Device::EnableTemperatureCompensation()
 {
     TempCompEnabled = true;
     LastTemperature = GetTemperature();
 }
 
-void OpenFocus::Device::DisableTemperatureCompensation()
+void Device::DisableTemperatureCompensation()
 {
     TempCompEnabled = false;
 }
 
-bool OpenFocus::Device::TemperatureCompensationEnabled()
+bool Device::TemperatureCompensationEnabled()
 {
     return TempCompEnabled;
 }
 
-bool OpenFocus::Device::HaveError()
+bool Device::HaveError()
 {
     bool retval = have_error;
     have_error = false;
