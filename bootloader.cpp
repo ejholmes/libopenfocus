@@ -7,7 +7,7 @@
 #include "util.h"
 
 #ifdef DEBUG
-#define DBG(...) printf(__VA_ARGS__)
+#define DBG(...) fprintf(stderr, __VA_ARGS__)
 #else
 #define DBG(...)
 #endif
