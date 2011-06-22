@@ -11,7 +11,7 @@ using namespace OpenFocus;
 void usage()
 {
     printf("Usage: bootloader [OPTION]...\n");
-    printf("Upload new firmware to the device.\n\n");
+    printf("Upload new firmware to an OpenFocus device.\n\n");
     
     printf("  -u, --upload=FILE              write FILE to device flash memory. FILE should be in intel hex format.\n");
 }
@@ -58,7 +58,7 @@ int main(int argc, char **argv)
                                 fprintf(stderr, "An error occurred while writing flash data\n");
                             }
                         } else {
-                            fprintf(stderr, "No data to upload. Is the file in hex format?\n");
+                            fprintf(stderr, "No data to upload. Is the file in intel hex format?\n");
                         }
                         IntelHexFile::FreeRecords(records);
                         IntelHexFile::FreeFlashData(flashdata);
