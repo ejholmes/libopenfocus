@@ -70,7 +70,7 @@ int main(int argc, char **argv)
                 printf("Position: %d\n", device->GetPosition());
                 goto done;
             case 't':
-                printf("Temperature: %f\n", device->GetTemperature());
+                printf("Temperature: %.2f\n", device->GetTemperature());
                 goto done;
             case 's':
                 device->Halt();
