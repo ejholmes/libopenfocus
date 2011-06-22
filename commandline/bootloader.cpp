@@ -11,7 +11,7 @@ using namespace OpenFocus;
 void usage()
 {
     printf("Usage: bootloader [OPTION]...\n");
-    printf("Control an openfocus device.\n\n");
+    printf("Upload new firmware to the device.\n\n");
     
     printf("  -u, --upload=FILE              write FILE to device flash memory. FILE should be in intel hex format.\n");
 }
