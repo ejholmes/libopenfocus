@@ -11,7 +11,7 @@ void usage()
     printf("Usage: openfocus [OPTION]...\n");
     printf("Control an openfocus device.\n\n");
     
-    printf("  -l, --list                        list current connected devices.\n");
+    printf("  -l, --list                        list currently connected devices.\n");
     printf("  -r, --reverse                     reverse the direction that the stepper motor rotates.\n");
     printf("  -p, --position                    print the current position.\n");
     printf("  -t, --temperature                 print the current temperature.\n");
