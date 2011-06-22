@@ -116,8 +116,9 @@ namespace OpenFocus
         /* Should be called by the client. A good idea is to setup a timer that calls this
          * consistently at a set interval. It will only perform temperature compensation if
          * EnableTemperatureCompensation() has been called. If you call DisableTemperatureCompensation(),
-         * this function will have no effect. */
-        void DoTempComp();
+         * this function will have no effect.
+         * Returns the position the relative position it will move to */
+        short DoTempComp();
 
         /* Returns true if the device is currently moving */
         bool IsMoving();

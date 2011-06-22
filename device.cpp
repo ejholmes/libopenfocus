@@ -187,18 +187,21 @@ int Device::GetCapabilities()
     return retval;
 }
 
-void Device::DoTempComp()
+short Device::DoTempComp()
 {
+    short relative = 0;
     if (TempCompEnabled && !IsMoving() && (LastTemperature != 0.0)) {
         double CurrentTemperature = GetTemperature();
 
         unsigned short position = GetPosition();
 
         double delta = CurrentTemperature - LastTemperature;
-        MoveTo((unsigned short)(position + (TemperatureCoefficient * delta)));
+        relative = (short)(TemperatureCoefficient * delta);
+        MoveTo((unsigned short)(position + relative));
 
         LastTemperature = CurrentTemperature;
     }
+    return relative;
 }
 
 void Device::EnableTemperatureCompensation()
