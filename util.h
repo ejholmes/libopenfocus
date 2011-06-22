@@ -45,7 +45,7 @@ havedevice:
     usb_claim_interface(handle, 0);
 #ifdef LIBUSB_HAS_DETACH_KERNEL_DRIVER_NP
     if (usb_detach_kernel_driver_np(handle, 0) < 0)
-        printf("Warning: Could not detach kernel driver: %s\nYou may need to run this as root or add yourself to the usb group", usb_strerror());
+        fprintf(stderr, "Warning: Could not detach kernel driver: %s\nYou may need to run this as root or add yourself to the usb group\n", usb_strerror());
 #endif
     *device = handle;
     return true;
