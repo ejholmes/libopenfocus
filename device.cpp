@@ -14,15 +14,17 @@
 #define DBG(...)
 #endif
 
-#define USB_RQ_MOVE_TO 0x00
-#define USB_RQ_HALT 0x01
-#define USB_RQ_SET_POSITION 0x02
-#define USB_RQ_REVERSE 0x03
-#define USB_RQ_REBOOT_TO_BOOTLOADER 0x04
-#define USB_RQ_GET_POSITION 0x10
-#define USB_RQ_IS_MOVING 0x11
-#define USB_RQ_GET_CAPABILITIES 0x12
-#define USB_RQ_GET_TEMPERATURE 0x13
+enum USB_REQUEST {
+    USB_RQ_MOVE_TO = 0x00,
+    USB_RQ_HALT = 0x01,
+    USB_RQ_SET_POSITION = 0x02,
+    USB_RQ_REVERSE = 0x03,
+    USB_RQ_REBOOT_TO_BOOTLOADER = 0x04,
+    USB_RQ_GET_POSITION = 0x10,
+    USB_RQ_IS_MOVING = 0x11,
+    USB_RQ_GET_CAPABILITIES = 0x12,
+    USB_RQ_GET_TEMPERATURE = 0x13
+};
 
 #define CAP_ABSOLUTE_POSITIONING 0x01
 #define CAP_TEMPERATURE_COMPENSATION 0x02
@@ -181,8 +183,8 @@ int Device::GetCapabilities()
     CanTemperatureCompensate = ((capabilities & CAP_TEMPERATURE_COMPENSATION) == CAP_TEMPERATURE_COMPENSATION);
 
     DBG("Capabilities:\n");
-    DBG("\tAbsolute Positioning: %s\n", CanAbsolutePosition ? "yes" : "no");
-    DBG("\tTemperature Compensation: %s\n", CanTemperatureCompensate ? "yes" : "no");
+    DBG("  Absolute Positioning: %s\n", CanAbsolutePosition ? "yes" : "no");
+    DBG("  Temperature Compensation: %s\n", CanTemperatureCompensate ? "yes" : "no");
 
     return retval;
 }

@@ -12,11 +12,13 @@
 #define DBG(...)
 #endif
 
-#define USB_RQ_REBOOT 0x01
-#define USB_RQ_WRITE_FLASH_BLOCK 0x02
-#define USB_RQ_GET_REPORT 0x03
-#define USB_RQ_WRITE_EEPROM_BLOCK 0x04
-#define USB_RQ_READ_EEPROM_BLOCK 0x05
+enum USB_REQUEST {
+    USB_RQ_REBOOT = 0x01,
+    USB_RQ_WRITE_FLASH_BLOCK = 0x02,
+    USB_RQ_GET_REPORT = 0x03,
+    USB_RQ_WRITE_EEPROM_BLOCK = 0x04,
+    USB_RQ_READ_EEPROM_BLOCK = 0x05
+};
 
 using namespace OpenFocus;
 
@@ -81,9 +83,9 @@ int Bootloader::GetReport()
     EEPROMSize = report.eepromsize;
 
     DBG("Device Information:\n");
-    DBG("\tPage Size: %d\n", PageSize);
-    DBG("\tFlash Size: %d\n", FlashSize);
-    DBG("\tEEPROM Size: %d\n", EEPROMSize);
+    DBG("  Page Size: %d\n", PageSize);
+    DBG("  Flash Size: %d\n", FlashSize);
+    DBG("  EEPROM Size: %d\n", EEPROMSize);
 
     return retval;
 }
