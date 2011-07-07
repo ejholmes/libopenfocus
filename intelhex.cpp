@@ -5,14 +5,7 @@
 
 #include "intelhex.h"
 
-/*char *IntelHexFile::Create(const char *data, size_t length, int byte_count)
-{
-    record current;
-
-    return NULL;
-}*/
-
-record *IntelHexFile::Open(const char *data, int length)
+struct record *IntelHexFile::Open(const char *data, size_t length)
 {
     FILE *tmp = tmpfile();
 
@@ -24,11 +17,11 @@ record *IntelHexFile::Open(const char *data, int length)
     return Open(tmp);
 }
 
-record *IntelHexFile::Open(FILE *fp)
+struct record *IntelHexFile::Open(FILE *fp)
 {
     assert(fp);
 
-    record *current = NULL, *head = NULL, *last = NULL;
+    struct record *current = NULL, *head = NULL, *last = NULL;
 
     while ((current = ParseLine(fp)) != NULL) {
         if (!head)
@@ -41,10 +34,10 @@ record *IntelHexFile::Open(FILE *fp)
     return head;
 }
 
-flash *IntelHexFile::RecordsToFlashData(record *records)
+struct flash *IntelHexFile::RecordsToFlashData(struct record *records)
 {
-    flash *fl = (flash *)malloc(sizeof(flash));
-    record *current;
+    struct flash *fl = (struct flash *)malloc(sizeof(struct flash));
+    struct record *current;
 
     fl->size = 0;
     fl->data = NULL;
@@ -58,9 +51,9 @@ flash *IntelHexFile::RecordsToFlashData(record *records)
     return fl;
 }
 
-void IntelHexFile::FreeRecords(record *records)
+void IntelHexFile::FreeRecords(struct record *records)
 {
-    record *current, *next;
+    struct record *current, *next;
 
     for (current = records; current != NULL; current = current->next) {
         next = current;
@@ -79,9 +72,9 @@ void IntelHexFile::FreeFlashData(flash *flashdata)
     flashdata = NULL;
 }
 
-record *IntelHexFile::ParseLine(FILE *fp)
+struct record *IntelHexFile::ParseLine(FILE *fp)
 {
-    record *rec = (record *)malloc(sizeof(record));
+    struct record *rec = (struct record *)malloc(sizeof(struct record));
     rec->data = NULL;
     char  start;
 
@@ -120,7 +113,7 @@ record *IntelHexFile::ParseLine(FILE *fp)
     return rec;
 }
 
-int IntelHexFile::ReadBytes(FILE *fp, int length)
+int IntelHexFile::ReadBytes(FILE *fp, size_t length)
 {
     char *buffer = NULL;
     int field = 0;
@@ -136,7 +129,7 @@ int IntelHexFile::ReadBytes(FILE *fp, int length)
     return field;
 }
 
-int IntelHexFile::TwosCompliment(record *rec)
+int IntelHexFile::TwosCompliment(struct record *rec)
 {
     int sum = 0;
     sum += (int)rec->byte_count;
@@ -153,7 +146,7 @@ int IntelHexFile::TwosCompliment(record *rec)
     return twos_comp;
 }
 
-bool IntelHexFile::VerifyChecksum(record *rec)
+bool IntelHexFile::VerifyChecksum(struct record *rec)
 {
     if (TwosCompliment(rec) != rec->checksum)
         return false;

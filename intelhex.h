@@ -15,7 +15,7 @@ enum record_type {
 };
 
 /* Struct that represents intel hex format */
-typedef struct record {
+struct record {
     char start;                 /* ':' */
     unsigned char byte_count;   /* Number of bytes in data, usually 8 or 16 */
     unsigned short address;     /* Address where data goes */
@@ -23,43 +23,43 @@ typedef struct record {
     unsigned char *data;        /* Data */
     int checksum;               /* Twos compliment of the sum of all fields except start and checksum */
     struct record *next;        /* Next record in the list */
-} record;
+};
 
-typedef struct flash {
+struct flash {
     size_t size;
     unsigned char *data;
-} flash;
+};
 
 class IntelHexFile
 {
 private:
 
     /* Calculates the twos compliment of a line */
-    static int TwosCompliment(record *rec);
+    static int TwosCompliment(struct record *rec);
 
     /* Checks the checksum against the calculated twos compliment */
-    static bool VerifyChecksum(record *rec);
+    static bool VerifyChecksum(struct record *rec);
 
     /* Parses a line */
-    static record *ParseLine(FILE *fp);
+    static struct record *ParseLine(FILE *fp);
 
     /* Reads some number of characters from fp and converts it from a hex number to int */
-    static int ReadBytes(FILE *fp, int length);
+    static int ReadBytes(FILE *fp, size_t length);
 
 public:
     /* Creates an intel hex file from data */
     static char *Create(const char *data, size_t length, int byte_count);
 
     /* Opens a file in intel hex format and returns a pointer to a linked list of records */
-    static record *Open(FILE *fp);
-    static record *Open(const char *data, int length);
+    static struct record *Open(FILE *fp);
+    static struct record *Open(const char *data, size_t length);
 
     /* Converts a linked list of records to an array of data */
-    static flash *RecordsToFlashData(record *records);
+    static struct flash *RecordsToFlashData(struct record *records);
 
     /* Functions for freeing lists */
-    static void FreeRecords(record *records);
-    static void FreeFlashData(flash *flashdata);
+    static void FreeRecords(struct record *records);
+    static void FreeFlashData(struct flash *flashdata);
 };
 
 

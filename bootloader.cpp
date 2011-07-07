@@ -29,11 +29,7 @@ unsigned short Bootloader::PageSize = 0;
 unsigned short Bootloader::FlashSize = 0;
 unsigned short Bootloader::EEPROMSize = 0;
 
-dev_handle *Bootloader::device = NULL;
-
-Bootloader::Bootloader()
-{
-}
+usb_dev_handle *Bootloader::device = NULL;
 
 bool Bootloader::Connect()
 {
@@ -90,25 +86,25 @@ int Bootloader::GetReport()
     return retval;
 }
 
-block *Bootloader::ReadEepromBlock(unsigned short address, size_t length)
+union block *Bootloader::ReadEepromBlock(unsigned short address, size_t length)
 {
-    block *data = (block *)malloc(sizeof(char) * length);
+    union block *data = (union block *)malloc(sizeof(char) * length);
     if (usb_control_msg(device, USB_TYPE_VENDOR | USB_RECIP_DEVICE | USB_ENDPOINT_IN, USB_RQ_READ_EEPROM_BLOCK, address, 0, &data->bytes, length, 5000) < 0)
         return NULL;
     return data;
 }
 
-eeprom *Bootloader::ReadEeprom()
+struct eeprom *Bootloader::ReadEeprom()
 {
     unsigned short blocksize = 128;
 
-    eeprom *ep = (eeprom *)malloc(sizeof(eeprom));
+    struct eeprom *ep = (struct eeprom *)malloc(sizeof(struct eeprom));
     ep->data = (char *)malloc(EEPROMSize); /* Allocate a buffer to store the eeprom data */
     ep->size = EEPROMSize;
 
     unsigned short address;
     for (address = 0; address < EEPROMSize; address += blocksize) {
-        block *b = ReadEepromBlock(address, blocksize + sizeof(address)); /* Read a block of eeprom */
+        union block *b = ReadEepromBlock(address, blocksize + sizeof(address)); /* Read a block of eeprom */
         if (!b)
             return NULL;
         memcpy(&ep->data[b->address], &b->data, blocksize); /* Copy the data to the eeprom buffer */

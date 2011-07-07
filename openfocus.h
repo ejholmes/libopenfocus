@@ -20,35 +20,7 @@
 #define BOOTLOADER_VID 0x20a0
 #define BOOTLOADER_PID 0x416d
 
-/* Type used for reporting firmware version */
-typedef struct version {
-    unsigned char minor; /* Minor version number */
-    unsigned char major; /* Major version number */
-} version;
-
-/* Type that is used to receive a block of data for eeprom or flash writing */
-#pragma pack(1)
-typedef union block {
-    struct {
-        unsigned short address;  /* Address where data starts */
-        char data;               /* Data to put at address */
-    };
-    char bytes;                  /* This structure as bytes */
-} block;
-#pragma pack()
-
-/* Used to return eeprom data */
-typedef struct eeprom {
-    unsigned short size;         /* Number of bytes in data */
-    char *data;                  /* EEPROM data */
-} eeprom;
-
-typedef struct device_info {
-    char serial[256];               /* Null terminated string consisting of the serial number */
-    struct device_info *next;            /* Next device in list */
-} device_info;
-
-typedef struct usb_dev_handle dev_handle;
+typedef struct usb_dev_handle usb_dev_handle;
 
 /* Typedef the classes to void for use with C */
 #ifndef __cplusplus
@@ -59,6 +31,36 @@ typedef void Bootloader;
 #ifdef __cplusplus
 namespace OpenFocus
 {
+#endif
+    /* Type used for reporting firmware version */
+    struct version {
+        unsigned char minor; /* Minor version number */
+        unsigned char major; /* Major version number */
+    };
+
+    /* Type that is used to receive a block of data for eeprom or flash writing */
+#pragma pack(1)
+    union block {
+        struct {
+            unsigned short address;  /* Address where data starts */
+            char data;               /* Data to put at address */
+        };
+        char bytes;                  /* This structure as bytes */
+    };
+#pragma pack()
+
+    /* Used to return eeprom data */
+    struct eeprom {
+        unsigned short size;         /* Number of bytes in data */
+        char *data;                  /* EEPROM data */
+    };
+
+    struct device_info {
+        char serial[256];               /* Null terminated string consisting of the serial number */
+        struct device_info *next;            /* Next device in list */
+    };
+
+#ifdef __cplusplus
     /*
      * This is the main class for interfacing with an OpenFocus device
      */
@@ -74,7 +76,7 @@ namespace OpenFocus
         int GetCapabilities();
 
         /* Handle to the usb device */
-        dev_handle *device;
+        usb_dev_handle *device;
 
         bool TempCompEnabled;
         double LastTemperature;
@@ -84,7 +86,7 @@ namespace OpenFocus
         Device();
         /* Finds the currently connected devices and returns a linked list
          * of device_info */
-        static device_info *EnumerateDevices();
+        static struct device_info *EnumerateDevices();
         /* Connect to the device */
         bool Connect();
         /* Connect to the device with a specific serial number */
@@ -129,7 +131,7 @@ namespace OpenFocus
         /* Device serial number */
         char Serial[256];
         /* Device firmware version */
-        version FirmwareVersion;
+        struct version FirmwareVersion;
 
         /* True if the device supports absolute positioning */
         bool CanAbsolutePosition;
@@ -155,12 +157,11 @@ namespace OpenFocus
         /* Bootloader Product ID */
         static const unsigned short Product_ID; /* 0x416d */
 
-        static dev_handle *device;
+        static usb_dev_handle *device;
 
         /* Returns report from device, returns 8 bytes */
         int GetReport();
     public:
-        Bootloader();
         /* Connect to the bootloader */
         bool Connect();
         /* Disconnects the bootloader */
@@ -177,9 +178,9 @@ namespace OpenFocus
         int Reboot();
 
         /* Requests length bytes from eeprom at address and puts it in data, returns an eeprom block */
-        block *ReadEepromBlock(unsigned short address, size_t length);
+        union block *ReadEepromBlock(unsigned short address, size_t length);
         /* Requests all the eeprom and stores it in data, returns eeprom data */
-        eeprom *ReadEeprom();
+        struct eeprom *ReadEeprom();
 
         /* Returns true if connected to bootloader */
         bool IsConnected();
@@ -223,7 +224,7 @@ namespace OpenFocus
         int device_is_moving(Device *device);
         int device_is_connected(Device *device);
         char *device_get_serial(Device *device);
-        version device_get_firmware_version(Device *device);
+        struct version device_get_firmware_version(Device *device);
         int device_can_absolute_position(Device *device);
         int device_can_temperature_compensate(Device *device);
         void device_set_temperature_coefficient(Device *device, double coefficient);

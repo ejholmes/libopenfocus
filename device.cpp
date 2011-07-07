@@ -43,12 +43,12 @@ Device::Device()
     have_error = false;
 }
 
-device_info *Device::EnumerateDevices()
+struct device_info *Device::EnumerateDevices()
 {
     struct usb_bus *bus;
     struct usb_device *dev;
     struct usb_dev_handle *handle = NULL;
-    device_info *head = NULL, *last = NULL, *current = NULL;
+    struct device_info *head = NULL, *last = NULL, *current = NULL;
 
     usb_init();
 
@@ -61,7 +61,7 @@ device_info *Device::EnumerateDevices()
                     dev->descriptor.idProduct == Product_ID) {
                 handle = usb_open(dev);
                 if (handle) {
-                    current = (device_info *)malloc(sizeof(device_info *));
+                    current = (struct device_info *)malloc(sizeof(struct device_info *));
                     current->next = NULL;
                     /* Copy serial */
                     usb_get_string_simple(handle, dev->descriptor.iSerialNumber, current->serial, sizeof(current->serial));
