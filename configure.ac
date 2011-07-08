@@ -4,7 +4,6 @@
 AC_INIT([LibOpenFocus], [0.1], [eric@ejholmes.net])
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
-AC_CONFIG_MACRO_DIR([m4])
 LT_INIT
 
 # Checks for programs.
@@ -17,7 +16,7 @@ AC_LIBTOOL_WIN32_DLL
 AC_PROG_LIBTOOL
 
 # Check for libusb
-PKG_CHECK_MODULES([libusb], [libusb],,[
+PKG_CHECK_MODULES([LIBUSB], [libusb],,[
                    AC_CHECK_LIB([usb], [usb_init],,[AC_MSG_ERROR[libusb not found]])
                    AC_CHECK_HEADERS([usb.h],,[AC_MSG_ERROR[usb.h not found]])
                    ])
