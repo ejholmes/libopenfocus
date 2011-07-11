@@ -22,6 +22,10 @@ void usage()
 
 int main(int argc, char **argv)
 {
+    if (argc <= 1) {
+        usage();
+        return 0;
+    }
     Device *device = new Device();
     /* Try to connect to the device */
     if (!device->Connect()) {

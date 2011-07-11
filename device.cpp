@@ -6,13 +6,7 @@
 #include <usb.h>
 
 #include "openfocus.h"
-#include "util.h"
-
-#ifdef DEBUG
-#define DBG(...) fprintf(stderr, __VA_ARGS__)
-#else
-#define DBG(...)
-#endif
+#include "openfocus_priv.h"
 
 enum USB_REQUEST {
     USB_RQ_MOVE_TO = 0x00,

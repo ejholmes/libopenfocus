@@ -1,6 +1,10 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <stdio.h>
 #include <usb.h>
 
@@ -51,14 +55,10 @@ havedevice:
     return true;
 }
 
-/* Copies bytes from source to dest and swapping between big and little endian
- * in the process */
-static inline void endian_swap(void *dest, const void *source, int length)
-{
-    int i;
-    for (i = 0; i < length; i++) {
-        ((char *)dest)[i] = (((char *)source)[length - i]);
-    }
-}
+#ifdef DEBUG
+#define DBG(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define DBG(...)
+#endif
 
 #endif // UTIL_H

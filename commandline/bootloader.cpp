@@ -18,6 +18,10 @@ void usage()
 
 int main(int argc, char **argv)
 {
+    if (argc <= 1) {
+        usage();
+        return 0;
+    }
     Bootloader *bootloader = new Bootloader();
     int c;
     opterr = 0;

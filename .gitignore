@@ -13,6 +13,9 @@ build/*
 *.tar
 *.xcodeproj
 
+openfocus
+bootloader
+
 # Autotools
 Makefile
 Makefile.in
