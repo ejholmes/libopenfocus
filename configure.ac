@@ -2,7 +2,9 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_INIT([LibOpenFocus], [0.1], [eric@ejholmes.net])
+AC_CONFIG_SRCDIR([src])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 LT_INIT
 
@@ -55,5 +57,5 @@ AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT

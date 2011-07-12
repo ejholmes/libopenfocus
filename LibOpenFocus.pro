@@ -12,16 +12,15 @@ CONFIG += staticlib
 DEFINES += DEBUG
 
 SOURCES += \
-    helper.cpp \
-    device.cpp \
-    bootloader.cpp \
-    intelhex.cpp \
-    cdevice.cpp
+    src/helper.cpp \
+    src/device.cpp \
+    src/bootloader.cpp \
+    src/intelhex.cpp \
+    src/cdevice.cpp
 
-HEADERS += openfocus.h \
-    libusb/usb.h \
-    intelhex.h \
-    util.h
+HEADERS += src/openfocus.h \
+    src/intelhex.h \
+    src/util.h
 unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib

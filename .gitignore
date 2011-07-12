@@ -12,9 +12,10 @@ build/*
 *.gz
 *.tar
 *.xcodeproj
+m4
 
-openfocus
-bootloader
+src/openfocus
+src/bootloader
 
 # Autotools
 Makefile
