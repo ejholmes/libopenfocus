@@ -1,15 +1,15 @@
 LibOpenFocus
 ============
 This is a C++ library (with some C compatibility) for communicating with the OpenFocus device and
-bootloader. For more information about OpenFocus, see https://github.com/CortexAstronomy/OpenFocus.
+bootloader. For more information about OpenFocus, see https://github.com/ejholmes/openfocus.
 
 Compiling From Source
 ---------------------
-Download the most recent source package from the [downloads section](https://github.com/CortexAstronomy/LibOpenFocus/downloads) and extract the contents.
+Download the most recent source package from the [downloads section](https://github.com/ejholmes/libopenfocus/downloads) and extract the contents.
 
 **Linux**
 
-```
+```bash
 $ ./configure --prefix=/usr
 $ make
 $ make install
@@ -25,14 +25,14 @@ Requires [MSYS](http://www.mingw.org/wiki/msys)
 **Mac OS X**  
 Requires Developer Tools/Xcode
 
-```
+```bash
 $ ./configure LIBUSB_CFLAGS="<location of usb.h>" LIBUSB_LIBS"<location of libusb.a>"
 $ make
 ```
 
 Or, if you prefer Xcode:
 
-```
+```bash
 $ open LibOpenFocus.xcodeproj
 ```
 
@@ -42,7 +42,7 @@ The following shows a simple example of how to use the library in a C/C++ applic
 
 **C++**
 
-```
+```c++
 #include <stdio.h>
 
 #include "openfocus.h"
@@ -67,7 +67,7 @@ int main()
 
 Compile on Linux
 
-```
+```bash
 $ g++ main.cpp -lusb -lopenfocus
 $ time ./a.out
 Connected to OpenFocus device
@@ -95,7 +95,7 @@ _Requires libopenfocus.dll to be in the same directory as the application_
 
 **C**
 
-```
+```c++
 #include <stdio.h>
 
 #include "openfocus.h"
@@ -120,7 +120,7 @@ int main()
 
 Compile on Linux
 
-```
+```bash
 $ gcc main.cpp -lusb -lopenfocus -lstdc++
 $ time ./a.out
 Connected to OpenFocus device
@@ -143,4 +143,3 @@ Current ambient temperature read by the device: 299.800000
 ```
 
 _Requires libopenfocus.dll to be in the same directory as the application_
-
